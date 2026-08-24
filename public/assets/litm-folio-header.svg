@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 160" preserveAspectRatio="none">
+  <defs>
+    <filter id="grain" x="-4%" y="-8%" width="108%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.11" numOctaves="2" seed="19" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.28  0 0 0 0 0.17  0 0 0 0 0.11  0 0 0 .24 0" result="tint"/>
+      <feBlend in="SourceGraphic" in2="tint" mode="multiply"/>
+    </filter>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6f4935"/>
+      <stop offset=".48" stop-color="#51372b"/>
+      <stop offset="1" stop-color="#33271f"/>
+    </linearGradient>
+  </defs>
+  <!-- Flush top edge; only the lower edge is deckled, so the folio does not
+       expose a rectangular strip of parchment above the title leaf. -->
+  <path filter="url(#grain)" fill="url(#ink)" d="M0 0 H1200 V145 L1114 151 1015 147 914 154 811 149 704 156 592 151 485 158 377 150 278 156 170 150 76 157 0 151 Z"/>
+  <path fill="none" stroke="#d1a05c" stroke-opacity=".28" stroke-width="3" d="M14 143 C170 151 301 143 443 149 S735 143 884 150 1070 145 1188 148"/>
+  <path fill="none" stroke="#fff0d5" stroke-opacity=".08" stroke-width="2" d="M18 12 C177 7 308 13 446 9 S737 14 890 8 1061 14 1181 9"/>
+</svg>

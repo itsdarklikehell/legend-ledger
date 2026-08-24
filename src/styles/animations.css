@@ -1,0 +1,297 @@
+/* ===== Motion polish =====
+ * Motion explains spatial relationships instead of decorating them. Folio
+ * drawers travel from the screen edge they belong to, overlays soften the
+ * sheet underneath, and small paper menus settle into place. Nothing relies
+ * on motion and reduced-motion users receive immediate state changes.
+ */
+
+:root {
+  --motion-fast: 120ms;
+  --motion-menu: 160ms;
+  --motion-ui: 190ms;
+  --motion-panel: 260ms;
+  --motion-ease-out: cubic-bezier(.22, .74, .18, 1);
+  --motion-ease-in: cubic-bezier(.52, .06, .78, .34);
+  --motion-ease-soft: cubic-bezier(.2, .64, .28, 1);
+}
+
+@keyframes litm-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes litm-backdrop-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes litm-drawer-in {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes litm-drawer-out {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes litm-modal-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, .8rem, 0) scale(.982);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes litm-modal-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, .45rem, 0) scale(.988);
+  }
+}
+
+@keyframes litm-popover-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -.42rem, 0) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes litm-popover-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -.24rem, 0) scale(.985);
+  }
+}
+
+@keyframes litm-sheet-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -.3rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes litm-result-settle {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -.38rem, 0) scale(.995);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Side folios ----------------------------------------------------------- */
+.drawer-backdrop,
+.development-backdrop {
+  animation: litm-backdrop-in var(--motion-ui) ease-out both;
+}
+
+.drawer-backdrop > .sheet-drawer,
+.development-backdrop > .development-drawer {
+  animation: litm-drawer-in var(--motion-panel) var(--motion-ease-out) both;
+  transform-origin: right center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Keep an overlay mounted during dismissal so closing feels as intentional
+   as opening. Pointer events are disabled while it leaves to prevent double
+   actions from rapid taps. */
+.drawer-backdrop.is-closing,
+.development-backdrop.is-closing {
+  pointer-events: none;
+  animation: litm-backdrop-out 220ms ease-in both;
+}
+
+.drawer-backdrop.is-closing > .sheet-drawer,
+.development-backdrop.is-closing > .development-drawer {
+  animation: litm-drawer-out 240ms var(--motion-ease-in) both;
+}
+
+/* Reference/modal surfaces --------------------------------------------- */
+.play-reference-overlay,
+.modal-backdrop:not(.development-backdrop) {
+  animation: litm-backdrop-in var(--motion-ui) ease-out both;
+}
+
+.play-reference-dialog,
+.modal-backdrop:not(.development-backdrop) > .development-dialog,
+.modal-backdrop:not(.development-backdrop) > .fulfillment-dialog {
+  animation: litm-modal-in var(--motion-panel) var(--motion-ease-out) both;
+  transform-origin: center top;
+  will-change: transform, opacity;
+}
+
+.play-reference-overlay.is-closing,
+.modal-backdrop:not(.development-backdrop).is-closing {
+  pointer-events: none;
+  animation: litm-backdrop-out 220ms ease-in both;
+}
+
+.play-reference-overlay.is-closing > .play-reference-dialog,
+.modal-backdrop:not(.development-backdrop).is-closing > .development-dialog,
+.modal-backdrop:not(.development-backdrop).is-closing > .fulfillment-dialog {
+  animation: litm-modal-out 210ms var(--motion-ease-in) both;
+}
+
+/* Small floating paper -------------------------------------------------- */
+.utility-menu,
+.character-switch-popover,
+.quick-edit-popover,
+.tag-more-popover,
+.tracker-add-popover[open] > .quick-add-grid,
+.tracker-add-popover[open] > .story-add-stack,
+.backpack-add-options[open] > :not(summary),
+.story-tag-options[open] > :not(summary) {
+  animation: litm-popover-in var(--motion-menu) var(--motion-ease-out) both;
+  transform-origin: top right;
+  will-change: transform, opacity;
+}
+
+.utility-menu.is-closing {
+  pointer-events: none;
+  animation: litm-popover-out 130ms var(--motion-ease-in) both;
+}
+
+.character-switch-popover {
+  transform-origin: top left;
+}
+
+/* Expanding play surfaces ---------------------------------------------- */
+.roll-folio.is-open .roll-folio-head,
+.roll-folio.is-open .roll-folio-main,
+.roll-folio.is-open .roll-folio-ledger,
+.roll-folio.is-open .rule-advisory-row,
+.roll-folio.is-open .roll-more-panel,
+.roll-folio.is-open .roll-effect-spender {
+  animation: litm-sheet-reveal var(--motion-ui) var(--motion-ease-soft) both;
+}
+
+.roll-folio.is-open .roll-folio-main { animation-delay: 18ms; }
+.roll-folio.is-open .roll-folio-ledger { animation-delay: 32ms; }
+.roll-folio.is-open .rule-advisory-row,
+.roll-folio.is-open .roll-more-panel { animation-delay: 42ms; }
+.roll-folio.is-open .roll-effect-spender { animation-delay: 48ms; }
+.roll-folio.is-open .roll-result-sheet {
+  animation: litm-result-settle 210ms var(--motion-ease-out) both;
+}
+
+/* Native details can animate their disclosure body in modern browsers.
+   Older browsers simply fall back to the existing instant disclosure. */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+
+  details::details-content {
+    block-size: 0;
+    overflow: clip;
+    opacity: 0;
+    transition:
+      block-size var(--motion-ui) var(--motion-ease-soft),
+      opacity var(--motion-fast) ease-out,
+      content-visibility var(--motion-ui) allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+}
+
+/* Quiet interaction feedback. Avoid moving layout; controls should respond
+   without making the paper wobble. */
+.drawer-close,
+.utility-menu button,
+.character-switch-row,
+.subtle-action,
+.full-width-action,
+.roll-folio-head,
+summary {
+  transition:
+    background-color var(--motion-fast) ease-out,
+    color var(--motion-fast) ease-out,
+    border-color var(--motion-fast) ease-out,
+    opacity var(--motion-fast) ease-out,
+    box-shadow var(--motion-fast) ease-out;
+}
+
+/* On phones a full-width folio still enters from its natural right edge, but
+   slightly faster so the motion does not feel like a page navigation. */
+@media (max-width: 700px) {
+  .drawer-backdrop > .sheet-drawer,
+  .development-backdrop > .development-drawer {
+    animation-duration: 230ms;
+  }
+
+  .drawer-backdrop.is-closing > .sheet-drawer,
+  .development-backdrop.is-closing > .development-drawer {
+    animation-duration: 210ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+
+  .drawer-backdrop,
+  .development-backdrop,
+  .drawer-backdrop > .sheet-drawer,
+  .development-backdrop > .development-drawer,
+  .play-reference-overlay,
+  .play-reference-dialog,
+  .modal-backdrop,
+  .modal-backdrop > *,
+  .utility-menu,
+  .character-switch-popover,
+  .quick-edit-popover,
+  .tag-more-popover,
+  .tracker-add-popover[open] > .quick-add-grid,
+  .tracker-add-popover[open] > .story-add-stack,
+  .backpack-add-options[open] > :not(summary),
+  .story-tag-options[open] > :not(summary),
+  .roll-folio.is-open .roll-folio-head,
+  .roll-folio.is-open .roll-folio-main,
+  .roll-folio.is-open .roll-folio-ledger,
+  .roll-folio.is-open .rule-advisory-row,
+  .roll-folio.is-open .roll-more-panel,
+  .roll-folio.is-open .roll-result-sheet,
+  .roll-folio.is-open .roll-effect-spender {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  details::details-content {
+    transition: none !important;
+  }
+}

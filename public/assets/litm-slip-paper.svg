@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" preserveAspectRatio="none">
+  <defs>
+    <filter id="r" x="-4%" y="-8%" width="108%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency=".008 .08" numOctaves="2" seed="37" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6"/>
+    </filter>
+    <filter id="p" x="-4%" y="-8%" width="108%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency=".23 .065" numOctaves="2" seed="41" result="n"/>
+      <feColorMatrix in="n" values="1 0 0 0 .8 0 1 0 0 .73 0 0 1 0 .62 0 0 0 .11 0" result="a"/>
+      <feBlend in="SourceGraphic" in2="a" mode="multiply"/>
+    </filter>
+    <linearGradient id="g" y2="1">
+      <stop stop-color="#fbf5e8"/>
+      <stop offset=".55" stop-color="#f3e8d3"/>
+      <stop offset="1" stop-color="#eadcc3"/>
+    </linearGradient>
+    <radialGradient id="age" cx="50%" cy="42%" r="70%">
+      <stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#725235" stop-opacity=".09"/>
+    </radialGradient>
+    <path id="paper" d="M12 10 C120 2 214 16 308 7 C425 -2 520 17 626 8 C742 0 844 14 989 6 C997 88 986 168 993 250 C986 326 996 376 989 410 C844 416 744 404 630 414 C520 422 420 403 310 414 C205 423 112 405 10 414 C4 340 13 280 7 213 C13 142 5 73 12 10Z"/>
+    <clipPath id="paperClip"><use href="#paper"/></clipPath>
+  </defs>
+
+  <use href="#paper" filter="url(#r)" fill="url(#g)" stroke="#84674a" stroke-opacity=".20" stroke-width="4"/>
+  <g clip-path="url(#paperClip)">
+    <rect x="0" y="0" width="1000" height="420" fill="#f5ebd8" opacity=".34" filter="url(#p)"/>
+    <rect x="0" y="0" width="1000" height="420" fill="url(#age)"/>
+    <path d="M22 45 C180 39 344 50 503 44 C674 38 818 50 978 43" stroke="#927250" stroke-opacity=".08" fill="none"/>
+    <path d="M18 382 C170 371 336 390 502 381 C667 372 824 387 980 378" stroke="#76583f" stroke-opacity=".10" stroke-width="5" fill="none"/>
+  </g>
+</svg>

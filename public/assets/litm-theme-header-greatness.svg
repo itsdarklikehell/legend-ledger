@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 180" preserveAspectRatio="none">
+<defs>
+ <filter id="rough" x="-3%" y="-15%" width="106%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".007 .055" numOctaves="3" seed="23" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5"/></filter>
+ <filter id="wash" x="-4%" y="-20%" width="108%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".025 .09" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .16 0" result="a"/><feBlend in="SourceGraphic" in2="a" mode="multiply"/></filter>
+ <linearGradient id="g" y2="1"><stop stop-color="#5c5c92"/><stop offset=".72" stop-color="#5c5c92"/><stop offset="1" stop-color="#41416e"/></linearGradient>
+</defs>
+<path d="M8 8 C128 1 219 12 321 6 C448 0 566 13 678 5 C793 0 878 10 992 7 L994 155 C866 169 757 149 640 160 C510 172 398 151 276 162 C174 170 92 155 7 162 Z" fill="url(#g)" filter="url(#rough)"/>
+<path d="M10 8 C130 1 222 11 322 6 C450 0 565 13 678 5 C794 0 879 10 991 7 L993 155 C861 166 754 150 640 160 C509 170 399 151 276 162 C174 170 92 155 8 162 Z" fill="#fff" opacity=".055" filter="url(#wash)"/>
+<path d="M12 156 C145 168 250 150 377 161 C507 172 631 151 748 160 C842 167 918 158 990 154" fill="none" stroke="#41416e" stroke-opacity=".55" stroke-width="5"/>
+</svg>

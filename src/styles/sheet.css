@@ -1,0 +1,452 @@
+/* ===== Sheet finishing ===== */
+/* Final sheet finish: neutral utility materials, uninterrupted folio geometry,
+   and a dedicated Quintessence prop on the live sheet. */
+
+:root {
+  --utility-leather-dark: #5b4d42;
+  --utility-leather-mid: #756353;
+  --utility-leather-light: #8a7560;
+  --quintessence-ink: #564d67;
+  --quintessence-wash: rgba(100, 88, 126, .13);
+}
+
+/* -------------------------------------------------------------------------
+   Folio geometry — binding overlays the paper rather than reserving a blank
+   gutter. This removes the visible left gap at the footer/header.
+   ------------------------------------------------------------------------- */
+.sheet-drawer.has-structured-scroll > .drawer-header,
+.sheet-drawer.has-structured-scroll > .drawer-footer {
+  margin-left: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.sheet-drawer.has-structured-scroll > .drawer-header {
+  padding-left: calc(var(--folio-binding-width) + 1.15rem) !important;
+}
+
+.sheet-drawer.has-structured-scroll > .drawer-footer {
+  padding-left: calc(var(--folio-binding-width) + .9rem) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Backpack — neutral weathered leather rather than orange. The paper itself
+   remains pale, so this still reads as a separate packed-items prop.
+   ------------------------------------------------------------------------- */
+.backpack-banner {
+  background:
+    linear-gradient(180deg, rgba(116,99,84,.82), rgba(78,65,55,.92)),
+    url('/assets/litm-dark-paper.webp') center / cover no-repeat !important;
+  background-blend-mode: color, normal !important;
+  clip-path: polygon(.25% 5%, 13% 2%, 28% 5%, 43% 1%, 58% 4%, 73% 1.5%, 87% 4.5%, 99.7% 2%, 99.4% 95%, 84% 98%, 68% 95%, 51% 99%, 34% 96%, 17% 99%, .4% 96%);
+  box-shadow: inset 0 1px rgba(255,255,255,.14), inset 0 -1px rgba(39,27,18,.2) !important;
+}
+
+.reference-title.backpack-title > div > span,
+.sheet-top-strip.is-focus-mode .reference-title.backpack-title > div > span,
+.backpack-banner .backpack-add-details > summary,
+.sheet-top-strip.is-focus-mode .backpack-add-details > summary {
+  color: #f5ecdc !important;
+}
+
+.reference-title.backpack-title > div > small,
+.reference-title.backpack-title > em {
+  color: rgba(245,236,220,.68) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Fellowship — a neutral old-bound folio, not an orange category. It should
+   sit beside the Might-coloured theme cards without pretending to be one.
+   ------------------------------------------------------------------------- */
+.fellowship-card > header {
+  background:
+    linear-gradient(180deg, rgba(102,87,75,.84), rgba(69,58,51,.92)),
+    url('/assets/litm-dark-paper.webp') center / cover no-repeat !important;
+  background-blend-mode: color, normal !important;
+  filter: drop-shadow(0 .28rem .22rem rgba(43,31,23,.14));
+}
+
+.fellowship-card > header h2,
+.fellowship-card > header .eyebrow,
+.fellowship-card > header .fellowship-might-icon,
+.fellowship-card > header .theme-menu-button {
+  color: #f7efe2 !important;
+}
+
+/* ===== Feature-specific sheet surfaces ===== */
+/* Character library, Quintessence editing, and multiline marks. */
+
+/* --------------------------------------------------------------------------
+   Theme tag marker strokes
+   Each wrapped line owns its own marker fragment, matching the title behavior.
+   -------------------------------------------------------------------------- */
+.theme-card .power-tag > span,
+.theme-card .theme-title-action > span,
+.theme-card .weakness-text {
+  display: inline !important;
+  max-width: 100%;
+  padding: 0 .13em .035em !important;
+  line-height: 1.22 !important;
+  -webkit-box-decoration-break: clone !important;
+  box-decoration-break: clone !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+}
+
+.theme-card .power-tag > span,
+.theme-card .theme-title-action > span {
+  background-color: transparent !important;
+  background-image: linear-gradient(
+    178deg,
+    transparent 0 57%,
+    rgba(239, 214, 147, .68) 58% 91%,
+    transparent 92% 100%
+  ) !important;
+}
+
+.theme-card .weakness-copy {
+  background: none !important;
+}
+.theme-card .weakness-text {
+  background-color: transparent !important;
+  background-image: linear-gradient(
+    178deg,
+    transparent 0 54%,
+    rgba(214, 139, 118, .52) 55% 92%,
+    transparent 93% 100%
+  ) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Character library
+   The old sticky toolbar was overlapping the first Hero cards inside the new
+   folio scroll model. Treat the library as a clean roster page instead.
+   -------------------------------------------------------------------------- */
+.character-library-drawer .drawer-scroll-region {
+  padding: .65rem .95rem 1.3rem .95rem !important;
+}
+
+.character-library-drawer .character-library-toolbar {
+  position: static !important;
+  inset: auto !important;
+  z-index: auto !important;
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem !important;
+  margin: 0 0 .85rem !important;
+  padding: .2rem .15rem .8rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(102, 73, 46, .18) !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.character-library-toolbar .button {
+  min-height: 2.15rem !important;
+  padding: .42rem .72rem !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.character-library-toolbar .button.primary {
+  border: 0 !important;
+  background: linear-gradient(180deg, #3f614a, #2f4b39) !important;
+  color: #fff7e8 !important;
+}
+.character-library-toolbar .button.secondary {
+  border: 1px solid rgba(113, 82, 52, .34) !important;
+  background: rgba(244, 232, 209, .48) !important;
+  color: #664a35 !important;
+}
+.character-library-toolbar input {
+  flex: 1 1 13rem;
+  min-width: 10rem;
+  min-height: 2.15rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(111, 83, 55, .34) !important;
+  background: linear-gradient(transparent 65%, rgba(239,214,147,.16) 65%) !important;
+  box-shadow: none !important;
+}
+
+.character-library-drawer .character-library-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: .65rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.character-library-drawer .character-library-card {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  min-height: 5.5rem;
+  overflow: hidden;
+  border: 0 !important;
+  border-left: 3px solid rgba(112, 84, 56, .28) !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.34), transparent 42%),
+    rgba(248, 241, 225, .44) !important;
+  box-shadow: 0 1px 0 rgba(104,78,50,.18), 0 -1px 0 rgba(255,255,255,.34) !important;
+  clip-path: polygon(.3% 2%, 22% 0, 47% 1.4%, 73% .3%, 99.6% 1.5%, 100% 96.5%, 78% 98.8%, 50% 97.6%, 24% 99.2%, .4% 97%);
+}
+.character-library-drawer .character-library-card.is-current {
+  border-left-color: #4d8061 !important;
+  background:
+    linear-gradient(90deg, rgba(77,128,97,.09), transparent 44%),
+    rgba(248, 241, 225, .56) !important;
+}
+
+.character-library-drawer .character-library-open {
+  min-width: 0;
+  min-height: 5.5rem;
+  display: grid !important;
+  grid-template-columns: 4rem minmax(0, 1fr) !important;
+  gap: .75rem !important;
+  align-items: center !important;
+  padding: .58rem .7rem !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #493b30 !important;
+  text-align: left !important;
+}
+.character-library-drawer .character-library-open:hover,
+.character-library-drawer .character-library-open:focus-visible {
+  background: rgba(77,128,97,.045) !important;
+  outline: 0 !important;
+}
+.character-library-drawer .character-library-portrait {
+  width: 3.65rem !important;
+  height: 4.25rem !important;
+  flex: none;
+  box-shadow: 0 .15rem .28rem rgba(59,43,28,.12);
+}
+.character-library-drawer .character-library-copy {
+  display: grid !important;
+  gap: .2rem !important;
+  min-width: 0;
+}
+.character-library-drawer .character-library-name-line strong {
+  font-size: 1.08rem !important;
+}
+.character-library-drawer .character-library-actions {
+  width: 7rem !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  align-content: center !important;
+  gap: .05rem;
+  padding: .45rem .5rem !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(102,77,49,.12) !important;
+  background: rgba(237,225,204,.22) !important;
+}
+.character-library-drawer .character-library-actions button {
+  min-height: 1.7rem !important;
+  padding: .25rem .35rem !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #75624e !important;
+  text-align: left !important;
+}
+.character-library-drawer .character-library-actions button:hover,
+.character-library-drawer .character-library-actions button:focus-visible {
+  color: #44372c !important;
+  background: linear-gradient(transparent 57%, rgba(239,214,147,.28) 57% 92%, transparent 92%) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Journey: Quintessences are table-editable, not locked catalog entries.
+   -------------------------------------------------------------------------- */
+.journey-quintessence-list {
+  display: grid !important;
+  gap: .48rem !important;
+  margin: .6rem 0 .5rem !important;
+}
+.journey-quintessence-item {
+  border: 0 !important;
+  border-top: 1px solid rgba(107, 78, 49, .16) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.journey-quintessence-item > summary {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .5rem .12rem .45rem;
+  cursor: pointer;
+  list-style: none;
+}
+.journey-quintessence-item > summary::-webkit-details-marker { display: none; }
+.journey-quintessence-item > summary > span { min-width: 0; }
+.journey-quintessence-item > summary strong,
+.journey-quintessence-item > summary small { display: block; }
+.journey-quintessence-item > summary strong {
+  color: #563e2f;
+  font: 700 .72rem/1.15 var(--font-litm-small, "IM Fell English", Georgia, serif);
+}
+.journey-quintessence-item > summary small {
+  margin-top: .12rem;
+  color: #857565;
+  font: italic .55rem/1.35 var(--font-litm-body, Labrada, Georgia, serif);
+}
+.journey-quintessence-item > summary > em {
+  flex: none;
+  color: #8f7254;
+  font: 700 .46rem/1.2 var(--font-litm-small, Georgia, serif);
+  font-style: normal;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.journey-quintessence-item[open] > summary > em::before { content: 'Close'; font-size: .46rem; }
+.journey-quintessence-item[open] > summary > em { font-size: 0; }
+
+.quintessence-edit-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(9rem, .65fr);
+  gap: .55rem .8rem;
+  padding: .35rem .12rem .5rem;
+}
+.quintessence-edit-fields label { display: grid; gap: .18rem; min-width: 0; }
+.quintessence-edit-fields label > span {
+  color: #806b56;
+  font: 700 .48rem/1.2 var(--font-litm-small, Georgia, serif);
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.quintessence-edit-fields label > span em {
+  color: #a19482;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.quintessence-rules-field { grid-column: 1 / -1; }
+.quintessence-edit-fields :is(input, select, textarea) {
+  width: 100%;
+  min-width: 0;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(105,77,49,.3) !important;
+  border-radius: 0 !important;
+  background: rgba(255,255,255,.12) !important;
+  box-shadow: none !important;
+  color: #514337 !important;
+}
+.quintessence-edit-fields textarea {
+  min-height: 4.2rem;
+  padding: .45rem .5rem !important;
+  border: 1px solid rgba(105,77,49,.22) !important;
+  resize: vertical;
+}
+.quintessence-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: 0 .12rem .62rem;
+}
+.quintessence-edit-actions button,
+.quintessence-add-custom {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.quintessence-edit-actions .danger-text {
+  color: #9b5547 !important;
+  background: linear-gradient(transparent 60%, rgba(214,139,118,.22) 60% 94%, transparent 94%) !important;
+}
+.quintessence-add-custom {
+  margin-top: .25rem;
+  color: #66513d !important;
+  background: linear-gradient(transparent 58%, rgba(239,214,147,.25) 58% 93%, transparent 93%) !important;
+}
+
+@media (max-width: 700px) {
+  .character-library-drawer .drawer-scroll-region { padding-inline: .65rem !important; }
+  .character-library-drawer .character-library-card { grid-template-columns: 1fr !important; }
+  .character-library-drawer .character-library-actions {
+    width: auto !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    border-left: 0 !important;
+    border-top: 1px solid rgba(102,77,49,.12) !important;
+  }
+  .character-library-drawer .character-library-actions button { text-align: center !important; }
+  .quintessence-edit-fields { grid-template-columns: 1fr; }
+  .quintessence-rules-field { grid-column: auto; }
+}
+
+.character-library-drawer .character-library-name-line em {
+  padding: 0 .14rem .03rem !important;
+  background: linear-gradient(transparent 58%, rgba(188,205,175,.52) 58% 94%, transparent 94%) !important;
+  color: #506a55 !important;
+  font-family: var(--font-litm-small, Georgia, serif) !important;
+  letter-spacing: .045em !important;
+}
+
+/* Functional cleanup: retirement and Quintessence controls. */
+.journeys-end-marker {
+  display: inline-flex;
+  align-items: center;
+  margin-top: .45rem;
+  padding: .22rem .4rem;
+  border: 1px solid rgba(226, 199, 144, .42);
+  background: rgba(18, 24, 20, .5);
+  color: #e4c98e;
+  font: 700 .48rem/1.2 var(--font-litm-small, "IM Fell English", Georgia, serif);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.journeys-end-marker:hover,
+.journeys-end-marker:focus-visible { background: rgba(46, 57, 47, .7); }
+
+.quintessence-printed-rules {
+  grid-column: 1 / -1;
+  padding: .1rem 0 .25rem;
+}
+.quintessence-printed-rules > span {
+  display: block;
+  margin-bottom: .16rem;
+  color: #806b56;
+  font: 700 .48rem/1.2 var(--font-litm-small, Georgia, serif);
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.quintessence-printed-rules > p {
+  margin: 0;
+  color: #6e6256;
+  font: italic .61rem/1.45 var(--font-litm-body, Labrada, Georgia, serif);
+}
+
+.retirement-correction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  margin: .45rem 0 .55rem;
+  padding: .5rem .58rem;
+  border: 1px solid rgba(132, 82, 60, .2);
+  background: rgba(132, 82, 60, .055);
+}
+.retirement-correction strong,
+.retirement-correction span { display: block; }
+.retirement-correction strong { color: #744934; font: 700 .66rem/1.2 var(--font-litm-small, Georgia, serif); }
+.retirement-correction span { margin-top: .1rem; color: #897466; font-size: .53rem; }
+
+.fulfillment-history-list { display: grid; gap: .45rem; margin: .45rem 0 .6rem; }
+.fulfillment-history-list article {
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  gap: .55rem;
+  padding-top: .42rem;
+  border-top: 1px solid rgba(96, 75, 52, .14);
+}
+.fulfillment-history-list time { color: #988874; font-size: .48rem; }
+.fulfillment-history-list strong { color: #5d4939; font: 700 .62rem/1.2 var(--font-litm-small, Georgia, serif); }
+.fulfillment-history-list p { margin: .13rem 0 0; color: #75685c; font-size: .56rem; line-height: 1.4; }
+
+@media (max-width: 620px) {
+  .retirement-correction { align-items: flex-start; flex-direction: column; }
+  .fulfillment-history-list article { grid-template-columns: 1fr; gap: .12rem; }
+}

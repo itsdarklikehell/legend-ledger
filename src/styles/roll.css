@@ -1,0 +1,1317 @@
+/* ===== Action folio ===== */
+/*
+ * Action / roll UX pass
+ *
+ * The roll is treated as another LitM table prop, not a web toolbar. Selection
+ * lives on the sheet itself as a hand-drawn ring; the folio only summarizes,
+ * resolves, and exposes the uncommon controls.
+ */
+
+:root {
+  --roll-ink: #3b2e25;
+  --roll-muted: #7c6b58;
+  --roll-rule: rgba(101, 77, 50, .26);
+  --roll-helpful: #3f7256;
+  --roll-hindering: #a4543f;
+}
+
+/* --------------------------------------------------------------------------
+   Selection ink on the physical sheet
+   -------------------------------------------------------------------------- */
+.tag-selection-target {
+  position: relative;
+  display: inline-block !important;
+  max-width: 100%;
+  isolation: isolate;
+}
+
+.tag-selection-target::after,
+.backpack-entry-main strong::after,
+.fellowship-card .paper-tag > span:first-child::after,
+.relationship-tag-main strong::after,
+.tracker-slip-main strong::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: -.38em -.68em;
+  pointer-events: none;
+  opacity: 0;
+  background: transparent url('/assets/litm-selection-ring-helpful.svg') center / 100% 100% no-repeat;
+  transform: rotate(-1.5deg);
+}
+
+.theme-title-tag.is-helpful-selected .tag-selection-target,
+.paper-tag.is-helpful-selected .tag-selection-target,
+.backpack-entry.is-helpful-selected .backpack-entry-main strong,
+.fellowship-card .paper-tag.is-helpful-selected > span:first-child,
+.relationship-tag-wrap.is-helpful-selected .relationship-tag-main strong,
+.tracker-slip.is-helpful-selected .tracker-slip-main strong {
+  --selection-ink: var(--roll-helpful);
+}
+
+.theme-title-tag.is-helpful-selected .tag-selection-target::after,
+.paper-tag.is-helpful-selected .tag-selection-target::after,
+.backpack-entry.is-helpful-selected .backpack-entry-main strong::after,
+.fellowship-card .paper-tag.is-helpful-selected > span:first-child::after,
+.relationship-tag-wrap.is-helpful-selected .relationship-tag-main strong::after,
+.tracker-slip.is-helpful-selected .tracker-slip-main strong::after {
+  background-image: url('/assets/litm-selection-ring-helpful.svg');
+}
+
+.theme-title-tag.is-hindering-selected .tag-selection-target,
+.paper-tag.is-hindering-selected .tag-selection-target,
+.backpack-entry.is-hindering-selected .backpack-entry-main strong,
+.fellowship-card .paper-tag.is-hindering-selected > span:first-child,
+.relationship-tag-wrap.is-hindering-selected .relationship-tag-main strong,
+.tracker-slip.is-hindering-selected .tracker-slip-main strong {
+  --selection-ink: var(--roll-hindering);
+}
+
+.theme-title-tag.is-hindering-selected .tag-selection-target::after,
+.paper-tag.is-hindering-selected .tag-selection-target::after,
+.backpack-entry.is-hindering-selected .backpack-entry-main strong::after,
+.fellowship-card .paper-tag.is-hindering-selected > span:first-child::after,
+.relationship-tag-wrap.is-hindering-selected .relationship-tag-main strong::after,
+.tracker-slip.is-hindering-selected .tracker-slip-main strong::after {
+  background-image: url('/assets/litm-selection-ring-hindering.svg');
+}
+
+.theme-title-tag:is(.is-helpful-selected,.is-hindering-selected) .tag-selection-target::after,
+.paper-tag:is(.is-helpful-selected,.is-hindering-selected) .tag-selection-target::after,
+.backpack-entry:is(.is-helpful-selected,.is-hindering-selected) .backpack-entry-main strong::after,
+.fellowship-card .paper-tag:is(.is-helpful-selected,.is-hindering-selected) > span:first-child::after,
+.relationship-tag-wrap:is(.is-helpful-selected,.is-hindering-selected) .relationship-tag-main strong::after,
+.tracker-slip:is(.is-helpful-selected,.is-hindering-selected) .tracker-slip-main strong::after {
+  opacity: .92;
+}
+
+.backpack-entry-main strong,
+.fellowship-card .paper-tag > span:first-child,
+.relationship-tag-main strong,
+.tracker-slip-main strong {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+/* The ring is the sheet-level roll indicator. Keep contribution arithmetic in
+   the roll folio instead of decorating every selected paper prop with badges. */
+.backpack-entry-power,
+.selection-power,
+.tracker-slip-power {
+  display: none !important;
+}
+
+/* Preserve line-by-line marker strokes after adding the selection wrapper. */
+.theme-card .theme-title-action > .tag-selection-target,
+.theme-card .power-tag > .tag-selection-target {
+  padding: 0 !important;
+  background: none !important;
+}
+.theme-card .tag-marker-text {
+  display: inline !important;
+  padding: 0 .13em .035em !important;
+  line-height: 1.22 !important;
+  -webkit-box-decoration-break: clone !important;
+  box-decoration-break: clone !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  background-color: transparent !important;
+  background-image: linear-gradient(178deg, transparent 0 57%, rgba(239,214,147,.68) 58% 91%, transparent 92% 100%) !important;
+}
+.theme-card .theme-title-action > .tag-selection-target .tag-marker-text {
+  line-height: .98 !important;
+}
+.theme-card .weakness-copy.tag-selection-target {
+  display: inline-block !important;
+  max-width: 100%;
+  background: none !important;
+}
+.theme-card .weakness-copy .weakness-mark {
+  display: inline-block;
+  margin-right: .12em;
+  vertical-align: -.08em;
+}
+.theme-card .weakness-copy .weakness-text {
+  display: inline !important;
+  padding: 0 .08em .025em !important;
+  line-height: 1.22 !important;
+  -webkit-box-decoration-break: clone !important;
+  box-decoration-break: clone !important;
+  background-image: linear-gradient(177deg, transparent 0 50%, rgba(208,160,141,.72) 52% 93%, transparent 95% 100%) !important;
+}
+.theme-card .weakness-tag-control.is-hindering-selected .weakness-text {
+  background-image: linear-gradient(177deg, transparent 0 49%, rgba(208,160,141,.88) 51% 94%, transparent 96% 100%) !important;
+}
+.theme-card .weakness-tag-control.is-helpful-selected .weakness-text {
+  background-image: linear-gradient(177deg, transparent 0 51%, rgba(188,205,175,.82) 53% 93%, transparent 95% 100%) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Position: the roll belongs to the themes, before campaign/table bookkeeping.
+   -------------------------------------------------------------------------- */
+.action-dock-wrap {
+  position: sticky !important;
+  bottom: .55rem !important;
+  z-index: 110 !important;
+  margin: .72rem .15rem .9rem !important;
+  pointer-events: none;
+}
+.action-dock-wrap > * { pointer-events: auto; }
+
+/* --------------------------------------------------------------------------
+   Roll folio
+   -------------------------------------------------------------------------- */
+.roll-folio {
+  position: relative;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: var(--roll-ink) !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.16), transparent 19%, transparent 81%, rgba(91,67,39,.04)),
+    url('/assets/foundry-parchment.webp') center / cover !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 .42rem .35rem rgba(42,31,20,.22));
+  clip-path: polygon(.25% 5%, 9% 1%, 21% 4%, 34% .5%, 49% 3%, 64% .8%, 79% 4%, 91% .8%, 99.7% 4%, 99.45% 95%, 89% 99%, 75% 96%, 61% 99.2%, 47% 96%, 31% 99%, 17% 96%, .25% 99%);
+}
+
+.roll-folio.is-idle {
+  min-height: 0 !important;
+  color: #f3e6cf !important;
+  background:
+    linear-gradient(100deg, rgba(83,52,35,.94), rgba(39,31,26,.97) 58%, rgba(50,38,30,.96)),
+    url('/assets/litm-dark-paper.webp') center / cover !important;
+}
+
+.roll-folio-idle {
+  min-height: 3.4rem;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: .7rem;
+  padding: .58rem 1rem .62rem;
+}
+.roll-idle-diamond {
+  color: #d8b471;
+  font-size: 1.18rem;
+  transform: rotate(4deg);
+}
+.roll-idle-copy { min-width: 0; }
+.roll-idle-copy > span,
+.roll-folio-title > span {
+  display: block;
+  color: #d6a15b;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.roll-idle-copy strong {
+  display: block;
+  color: #fff4df;
+  font-family: "Labrada", Georgia, serif;
+  font-size: .82rem;
+  font-weight: 700;
+}
+.roll-idle-copy small {
+  display: block;
+  margin-top: .08rem;
+  color: #c8bca8;
+  font-family: "Labrada", Georgia, serif;
+  font-size: .62rem;
+  font-style: italic;
+}
+.roll-idle-open {
+  padding: .34rem .15rem .25rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(236,211,170,.45) !important;
+  background: transparent !important;
+  color: #efe1c9 !important;
+  box-shadow: none !important;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .68rem;
+  letter-spacing: .04em;
+}
+.roll-idle-open:hover { color: #fff !important; border-color: #d4a45e !important; }
+
+.roll-folio-head {
+  min-height: 3rem;
+  display: grid;
+  grid-template-columns: minmax(10rem,1fr) auto auto;
+  align-items: center;
+  gap: .8rem;
+  padding: .5rem .85rem .52rem 1rem;
+  color: #f3e7d3;
+  background:
+    linear-gradient(90deg, rgba(112,68,45,.24), transparent 30%, rgba(0,0,0,.08)),
+    url('/assets/litm-dark-paper.webp') center / cover;
+  border: 0 !important;
+}
+.roll-folio-title { min-width: 0; }
+.roll-folio-title small {
+  display: block;
+  margin-top: .08rem;
+  overflow: hidden;
+  color: #c7b9a4;
+  font-family: "Labrada", Georgia, serif;
+  font-size: .59rem;
+  font-style: italic;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roll-mode-tabs {
+  display: flex !important;
+  align-items: center;
+  gap: .1rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+.roll-mode-tabs button {
+  min-height: 0 !important;
+  padding: .25rem .42rem .22rem !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #c9baa3 !important;
+  font-family: "IM Fell English", Georgia, serif !important;
+  font-size: .62rem !important;
+  letter-spacing: .04em;
+  text-transform: capitalize;
+}
+.roll-mode-tabs button.is-active {
+  color: #fff2da !important;
+  background: linear-gradient(transparent 62%, rgba(209,155,75,.38) 62% 88%, transparent 88%) !important;
+}
+.roll-folio-close {
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #d9c9b0 !important;
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.roll-folio-close:hover { color: #fff4e0 !important; }
+
+.roll-folio-main {
+  display: grid;
+  grid-template-columns: minmax(12rem,1fr) 5.3rem 5rem 8.2rem;
+  align-items: end;
+  gap: .72rem;
+  padding: .72rem 1rem .55rem;
+}
+.roll-action-line,
+.roll-might-control {
+  display: grid;
+  gap: .12rem;
+  min-width: 0;
+}
+.roll-action-line > span,
+.roll-might-control > span {
+  color: #7a624c;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .55rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.roll-action-line input,
+.roll-might-control select {
+  width: 100%;
+  min-height: 2rem !important;
+  padding: .2rem .25rem .18rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(102,76,48,.34) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(transparent 67%, rgba(239,214,147,.18) 67%) !important;
+  box-shadow: none !important;
+  color: #403329 !important;
+  font-family: "Labrada", Georgia, serif !important;
+  font-size: .82rem !important;
+}
+.roll-might-control select { text-align: center; font-weight: 700; }
+
+.roll-power-seal {
+  width: 4.4rem;
+  height: 4.4rem;
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #44362c;
+  background: rgba(239,224,191,.42);
+  border: 1px solid rgba(111,82,50,.5);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px rgba(244,233,207,.72), inset 0 0 0 4px rgba(117,87,53,.16);
+  transform: rotate(-2deg);
+}
+.roll-power-seal span {
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .52rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.roll-power-seal strong {
+  margin-top: -.08rem;
+  font-family: "Labrada", Georgia, serif;
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.roll-throw-button {
+  min-height: 3.4rem !important;
+  display: grid;
+  place-content: center;
+  gap: .02rem;
+  padding: .4rem .85rem !important;
+  border: 0 !important;
+  color: #fff1db !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.12)),
+    #3a3029 !important;
+  box-shadow: none !important;
+  clip-path: polygon(3% 8%, 48% 1%, 97% 7%, 99% 88%, 55% 100%, 2% 91%);
+  font-family: "IM Fell English", Georgia, serif !important;
+}
+.roll-throw-button:hover { background-color: #4a392d !important; }
+.roll-dice-mark { color: #d5ab67; font-size: .78rem; letter-spacing: .08em; }
+.roll-throw-button strong { font-size: .78rem; }
+
+.roll-folio-ledger {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  min-height: 2.3rem;
+  margin: 0 1rem;
+  padding: .34rem 0 .5rem;
+  border-top: 1px solid var(--roll-rule);
+}
+.action-invocations { position: relative; flex: 0 1 auto; }
+.action-invocations > summary {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .35rem;
+  padding: .12rem .2rem;
+  color: #6f5844;
+  cursor: pointer;
+  list-style: none;
+  font-family: "Labrada", Georgia, serif;
+}
+.action-invocations > summary::-webkit-details-marker { display: none; }
+.action-invocations > summary::before { content: "◇"; color: #9d7853; font-size: .62rem; }
+.action-invocations > summary > span { font-size: .62rem; text-transform: uppercase; letter-spacing: .07em; }
+.action-invocations > summary > strong { font-size: .8rem; }
+.action-invocations > summary > em { color: #8d7964; font-size: .61rem; font-weight: 400; }
+.action-invocations[open] > summary { background: linear-gradient(transparent 58%, rgba(239,214,147,.24) 58% 90%, transparent 90%); }
+
+.invocation-list {
+  position: absolute;
+  z-index: 140;
+  left: -.25rem;
+  bottom: calc(100% + .55rem);
+  width: min(34rem, 78vw);
+  max-height: min(24rem, 58vh);
+  overflow: auto;
+  padding: .62rem .72rem;
+  background:
+    linear-gradient(rgba(250,244,229,.78), rgba(239,227,204,.88)),
+    url('/assets/foundry-parchment.webp') center / cover;
+  filter: drop-shadow(0 .35rem .38rem rgba(43,31,19,.24));
+  clip-path: polygon(.5% 2%, 14% .4%, 31% 1.6%, 50% .4%, 68% 1.8%, 84% .4%, 99.5% 1.8%, 99% 98%, 82% 99.5%, 63% 98%, 42% 99.4%, 21% 98%, .4% 99%);
+}
+.invocation-entry {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto auto;
+  align-items: center;
+  gap: .45rem;
+  min-height: 2.55rem;
+  padding: .28rem .2rem;
+  border-bottom: 1px solid rgba(107,82,53,.15);
+}
+.invocation-entry:last-child { border-bottom: 0; }
+.invocation-name {
+  min-width: 0;
+  padding: .15rem .2rem !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #4b3c31 !important;
+  text-align: left;
+}
+.invocation-name strong { display: block; font-family: "Labrada", Georgia, serif; font-size: .78rem; font-style: italic; }
+.invocation-name small { display: block; color: #8c7b69; font-size: .57rem; }
+.invocation-entry.is-helpful .invocation-name strong { background: linear-gradient(transparent 62%, rgba(239,214,147,.45) 62% 92%, transparent 92%); width: fit-content; }
+.invocation-entry.is-hindering .invocation-name strong { background: linear-gradient(transparent 62%, rgba(236,186,133,.48) 62% 92%, transparent 92%); width: fit-content; }
+.invocation-polarity { display: flex; align-items: center; }
+.invocation-polarity button {
+  width: 1.65rem;
+  height: 1.65rem;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #927f6b !important;
+  font-family: Georgia, serif;
+  font-size: 1rem;
+}
+.invocation-polarity button.is-active.helpful { color: var(--roll-helpful) !important; font-weight: 800; }
+.invocation-polarity button.is-active.hindering { color: var(--roll-hindering) !important; font-weight: 800; }
+.invocation-burn {
+  min-width: 4.4rem;
+  min-height: 1.7rem !important;
+  padding: .12rem .28rem !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #7d6854 !important;
+}
+.invocation-burn svg { width: 1.15rem; height: 1.15rem; }
+.invocation-burn.is-active { color: #8f4936 !important; }
+
+.roll-power-breakdown {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .25rem .7rem;
+  color: #85715d;
+  font-family: "Labrada", Georgia, serif;
+  font-size: .59rem;
+}
+.roll-power-breakdown strong { color: #4c3d31; font-size: .7rem; }
+.roll-empty-selection { flex: 1; color: #8a7866; font-size: .62rem; font-style: italic; }
+.roll-more-toggle {
+  flex: 0 0 auto;
+  padding: .18rem 0 .12rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(111,84,54,.25) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #765f4b !important;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .59rem;
+}
+.roll-more-toggle.is-active { color: #4f3d30 !important; border-bottom-color: #b78542 !important; }
+
+.roll-more-panel {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: .65rem !important;
+  margin: 0 1rem .6rem !important;
+  padding: .55rem .1rem .1rem !important;
+  border: 0 !important;
+  border-top: 1px solid var(--roll-rule) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.roll-more-panel label { min-width: 0; }
+.roll-more-panel input:not([type="checkbox"]),
+.roll-more-panel select {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(100,75,48,.3) !important;
+  border-radius: 0 !important;
+  background: rgba(255,255,255,.1) !important;
+  box-shadow: none !important;
+}
+
+.rule-advisory-row {
+  margin: 0 1rem .5rem !important;
+  border: 0 !important;
+  background: linear-gradient(transparent 63%, rgba(236,186,133,.25) 63% 94%, transparent 94%) !important;
+  color: #805b46 !important;
+}
+
+.roll-result-sheet {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: .7rem;
+  margin: .08rem 1rem .55rem;
+  padding: .5rem .65rem;
+  border-top: 1px solid rgba(96,74,49,.22);
+  border-bottom: 1px solid rgba(96,74,49,.18);
+  background: rgba(255,255,255,.1);
+}
+.roll-result-sheet.is-success { background: linear-gradient(90deg, rgba(188,205,175,.26), rgba(255,255,255,.08)); }
+.roll-result-sheet.has-consequences { box-shadow: inset .18rem 0 0 rgba(164,84,63,.62); }
+.roll-result-sheet .dice-pair { display: flex; gap: .25rem; }
+.roll-result-sheet .dice-pair span {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-content: center;
+  border: 1px solid rgba(89,67,43,.45);
+  transform: rotate(-2deg);
+  background: rgba(248,239,218,.68);
+  color: #48372a;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: 1rem;
+}
+.roll-result-sheet .dice-pair span + span { transform: rotate(2deg); }
+.roll-result-copy strong { display: block; color: #47382d; font-family: "IM Fell English", Georgia, serif; font-size: .9rem; }
+.roll-result-copy small { display: block; color: #806e5c; font-size: .62rem; }
+.result-override-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .25rem; }
+.result-override-actions button {
+  padding: .22rem .35rem !important;
+  border: 0 !important;
+  background: linear-gradient(transparent 58%, rgba(239,214,147,.3) 58% 92%, transparent 92%) !important;
+  box-shadow: none !important;
+  color: #67513f !important;
+  font-size: .58rem !important;
+}
+.result-override-actions button.is-active { color: #8e4938 !important; }
+
+.roll-effect-spender {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: .35rem !important;
+  margin: 0 1rem .7rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+.roll-effect-spender button {
+  min-height: 1.9rem !important;
+  padding: .25rem .42rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(108,82,52,.24) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #685440 !important;
+  font-size: .62rem !important;
+}
+.roll-effect-spender button strong { margin-right: .2rem; color: #47362a; }
+.roll-effect-spender button:disabled { opacity: .35; }
+
+@media (max-width: 1000px) {
+  .action-dock-wrap { bottom: .25rem !important; margin-inline: 0 !important; }
+  .roll-folio-main { grid-template-columns: minmax(10rem,1fr) 4.8rem 4.5rem 7.2rem; gap: .45rem; }
+  .roll-folio-head { grid-template-columns: minmax(7rem,1fr) auto auto; }
+  .roll-folio-title small { display: none; }
+}
+
+@media (max-width: 700px) {
+  .action-dock-wrap { position: relative !important; bottom: auto !important; }
+  .roll-folio-idle { grid-template-columns: auto 1fr; }
+  .roll-idle-open { grid-column: 2; justify-self: start; }
+  .roll-idle-copy small { display: none; }
+  .roll-folio-head { grid-template-columns: 1fr auto; gap: .35rem; }
+  .roll-folio-title { display: none; }
+  .roll-mode-tabs { justify-self: start; }
+  .roll-folio-main { grid-template-columns: minmax(0,1fr) 4.4rem 6.8rem; }
+  .roll-action-line { grid-column: 1 / -1; }
+  .roll-might-control { grid-column: 1; }
+  .roll-power-seal { grid-column: 2; width: 3.8rem; height: 3.8rem; }
+  .roll-throw-button { grid-column: 3; }
+  .roll-folio-ledger { align-items: flex-start; flex-wrap: wrap; }
+  .roll-power-breakdown { order: 3; width: 100%; justify-content: flex-start; }
+  .invocation-list { position: fixed; left: .7rem; right: .7rem; bottom: 5.4rem; width: auto; max-height: 48vh; }
+  .roll-more-panel { grid-template-columns: 1fr; }
+  .roll-result-sheet { grid-template-columns: auto 1fr; }
+  .result-override-actions { grid-column: 1 / -1; justify-content: flex-start; }
+}
+
+/* ===== Roll layout ===== */
+/*
+ * Roll interaction
+ * - Character tags keep the hand-drawn selection ring.
+ * - Tracker props (statuses / story tags) use an inked marker + edge cue instead
+ *   of trying to stretch the same oval around an entire tracker row.
+ * - Burn is exposed directly on the selected tag's scratch mark.
+ * - The invoked-tag inspector expands in the folio instead of escaping it as a
+ *   clipped popup.
+ */
+
+/* --------------------------------------------------------------------------
+   Tracker selection: marker, not giant circle
+   -------------------------------------------------------------------------- */
+.tracker-slip-main > strong {
+  justify-self: start !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* The generic ring is right for text written directly on a character sheet,
+   but visually wrong when stretched across a separate tracker slip. */
+.tracker-slip-main > strong::after {
+  content: none !important;
+  display: none !important;
+}
+
+.tracker-slip:is(.is-helpful-selected,.is-hindering-selected) {
+  --tracker-selection: rgba(188, 205, 175, .7);
+  --tracker-selection-ink: #477159;
+}
+.tracker-slip.is-hindering-selected {
+  --tracker-selection: rgba(236, 186, 133, .72);
+  --tracker-selection-ink: #a4543f;
+}
+
+.tracker-slip:is(.is-helpful-selected,.is-hindering-selected)::before {
+  width: .32rem !important;
+  opacity: .95 !important;
+  background: var(--tracker-selection-ink) !important;
+  clip-path: polygon(25% 0, 100% 4%, 72% 31%, 100% 58%, 66% 100%, 0 96%, 20% 63%, 0 35%);
+}
+
+.tracker-slip:is(.is-helpful-selected,.is-hindering-selected) .tracker-slip-main > strong {
+  padding-inline: .08em .13em;
+  color: #42352c !important;
+  background:
+    linear-gradient(178deg,
+      transparent 0 58%,
+      var(--tracker-selection) 59% 90%,
+      transparent 91% 100%) !important;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.tracker-slip:is(.is-helpful-selected,.is-hindering-selected) .tracker-slip-leaf {
+  color: var(--tracker-selection-ink) !important;
+  opacity: .92 !important;
+}
+
+.tracker-slip:is(.is-helpful-selected,.is-hindering-selected) .tracker-slip-main > span {
+  color: var(--tracker-selection-ink) !important;
+}
+
+/* Statuses are selected as a whole value, so emphasize the currently marked
+   tier instead of drawing a second large shape over the status name. */
+.status-tracker-slip.is-helpful-selected .status-box-track > button.is-marked {
+  box-shadow: inset 0 -2px 0 #4c765c !important;
+}
+.status-tracker-slip.is-hindering-selected .status-box-track > button.is-marked {
+  box-shadow: inset 0 -2px 0 #a4543f !important;
+}
+
+/* --------------------------------------------------------------------------
+   Burn / scratch: direct sheet interaction
+   -------------------------------------------------------------------------- */
+.tag-scratch-button.is-roll-burn,
+.backpack-entry-scratch.is-roll-burn,
+.tracker-slip-scratch.is-roll-burn {
+  color: #a34f38 !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 .08rem rgba(163,79,56,.18));
+}
+
+.tag-scratch-button.is-roll-burn::before,
+.backpack-entry-scratch.is-roll-burn::before,
+.tracker-slip-scratch.is-roll-burn::before {
+  content: "+3";
+  position: absolute;
+  right: -.08rem;
+  top: -.42rem;
+  color: #8d4937;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .39rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  transform: rotate(4deg);
+}
+
+.tag-scratch-button,
+.backpack-entry-scratch,
+.tracker-slip-scratch {
+  position: relative;
+}
+
+/* A selected helpful tag's scratch mark is the burn affordance. Make it a bit
+   easier to discover without adding a separate web-style burn button. */
+.sheet-tag-control.is-helpful-selected .tag-scratch-button:not(.is-roll-burn),
+.theme-title-tag.is-helpful-selected .tag-scratch-button:not(.is-roll-burn),
+.backpack-entry.is-helpful-selected .backpack-entry-scratch:not(.is-roll-burn),
+.story-tracker-slip.is-helpful-selected .tracker-slip-scratch:not(.is-roll-burn) {
+  color: rgba(126, 80, 55, .78) !important;
+  opacity: .82 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Invoked-tag inspector: part of the folio, never an escaping popup
+   -------------------------------------------------------------------------- */
+.roll-folio {
+  overflow: hidden !important;
+}
+
+.roll-folio-ledger {
+  flex-wrap: wrap !important;
+  align-items: center !important;
+}
+
+.action-invocations {
+  position: static !important;
+  flex: 0 0 auto !important;
+}
+
+.action-invocations > summary {
+  border-radius: 0 !important;
+}
+
+.action-invocations > summary::after {
+  content: "review";
+  margin-left: .08rem;
+  color: #9a8066;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .48rem;
+  font-style: normal;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.action-invocations[open] > summary::after { content: "close"; }
+
+.action-invocations[open] {
+  flex: 1 0 100% !important;
+  width: 100% !important;
+  padding-top: .15rem;
+}
+
+.invocation-list {
+  position: static !important;
+  inset: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  overflow: visible !important;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 .8rem;
+  margin-top: .35rem;
+  padding: .42rem .55rem .5rem !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.1), transparent 30%, rgba(102,76,48,.025)),
+    rgba(239, 229, 210, .34) !important;
+  filter: none !important;
+  clip-path: none !important;
+  border-top: 1px solid rgba(107,82,53,.16);
+  border-bottom: 1px solid rgba(107,82,53,.12);
+}
+
+.invocation-entry {
+  min-height: 2.85rem !important;
+  grid-template-columns: minmax(0,1fr) auto auto !important;
+  gap: .35rem !important;
+  padding: .32rem .12rem !important;
+}
+
+.invocation-name strong {
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.12;
+}
+
+.invocation-burn {
+  min-width: 5.8rem !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .18rem;
+  color: #745e4c !important;
+}
+.invocation-burn span {
+  display: inline !important;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .54rem !important;
+}
+.invocation-burn:not(.is-active) span::after { content: " +3"; color: #9a765c; }
+.invocation-burn.is-active span { color: #934a37 !important; }
+
+/* Power breakdown stays on the compact top line even when the review list is
+   open, so opening it does not make the roll controls jump around. */
+.roll-power-breakdown { min-width: min(20rem, 45%); }
+
+@media (max-width: 760px) {
+  .invocation-list {
+    grid-template-columns: 1fr;
+  }
+  .roll-power-breakdown { min-width: 100%; }
+  .invocation-entry {
+    grid-template-columns: minmax(0,1fr) auto !important;
+  }
+  .invocation-burn {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
+
+/* ===== Roll gestures and sheet selection ===== */
+/*
+ * Gesture and tracker interaction
+ *
+ * Story tags and statuses now use the same secondary-gesture language as
+ * character tags. Statuses also carry a table-editable default polarity.
+ * Backpack selection uses a quiet ink mark instead of stretching the theme-tag
+ * selection ring across a utility row.
+ */
+
+/* --------------------------------------------------------------------------
+   Backpack: selected, but not circled
+   -------------------------------------------------------------------------- */
+.backpack-entry.is-helpful-selected,
+.backpack-entry.is-hindering-selected,
+.sheet-top-strip.is-focus-mode .backpack-entry.is-helpful-selected,
+.sheet-top-strip.is-focus-mode .backpack-entry.is-hindering-selected {
+  box-shadow: none !important;
+}
+
+.backpack-entry-main strong::after {
+  content: none !important;
+  display: none !important;
+}
+
+.backpack-entry-mark {
+  position: relative;
+  width: .8rem;
+  min-width: .8rem;
+  color: rgba(102, 82, 59, .45) !important;
+  font-size: 0 !important;
+  text-align: center;
+}
+.backpack-entry-mark::before {
+  content: "◇";
+  font-family: Georgia, serif;
+  font-size: .67rem;
+  line-height: 1;
+}
+.backpack-entry:is(.is-helpful-selected,.is-hindering-selected) .backpack-entry-mark::before {
+  content: "◆";
+}
+.backpack-entry.is-helpful-selected .backpack-entry-mark { color: #477159 !important; }
+.backpack-entry.is-hindering-selected .backpack-entry-mark { color: #a4543f !important; }
+
+.backpack-entry-main strong {
+  width: fit-content;
+  max-width: 100%;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  line-height: 1.14;
+  padding: 0 .08em .025em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.backpack-entry.is-helpful-selected .backpack-entry-main strong {
+  color: #3e493e !important;
+  background-image: linear-gradient(178deg, transparent 0 78%, rgba(71,113,89,.34) 79% 91%, transparent 92%) !important;
+}
+.backpack-entry.is-hindering-selected .backpack-entry-main strong {
+  color: #6e3d31 !important;
+  background-image: linear-gradient(178deg, transparent 0 78%, rgba(164,84,63,.34) 79% 91%, transparent 92%) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Story/status gestures: keep the printed tracker quiet
+   -------------------------------------------------------------------------- */
+.tracker-slip-main.gesture-tag-button {
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+}
+
+/* Native status polarity is a property of the status, not the current roll.
+   Keep it visible but much quieter than the selected-for-roll treatment. */
+.status-tracker-slip.is-default-hindering:not(.is-helpful-selected):not(.is-hindering-selected) .tracker-slip-leaf,
+.status-tracker-slip.is-default-hindering:not(.is-helpful-selected):not(.is-hindering-selected) .tracker-slip-main > span {
+  color: #a25a42 !important;
+  opacity: .78 !important;
+}
+.status-tracker-slip.is-default-helpful:not(.is-helpful-selected):not(.is-hindering-selected) .tracker-slip-leaf,
+.status-tracker-slip.is-default-helpful:not(.is-helpful-selected):not(.is-hindering-selected) .tracker-slip-main > span {
+  color: #54775f !important;
+  opacity: .78 !important;
+}
+
+.status-polarity-toggle {
+  width: 1.28rem !important;
+  min-width: 1.28rem !important;
+  height: 1.28rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font-family: "IM Fell English", Georgia, serif !important;
+  font-size: .74rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  background: transparent !important;
+  opacity: .5;
+}
+.status-tracker-slip:hover .status-polarity-toggle,
+.status-polarity-toggle:focus-visible { opacity: .92; }
+.status-polarity-toggle.is-hindering { color: #a4543f !important; }
+.status-polarity-toggle.is-helpful { color: #477159 !important; }
+.status-polarity-toggle:hover {
+  background: linear-gradient(178deg, transparent 0 65%, rgba(239,214,147,.44) 66% 90%, transparent 91%) !important;
+}
+
+/* Four controls now fit the add-status note without forcing a popover wider
+   than the paper. */
+.tracker-add-popover > .quick-add-grid {
+  grid-template-columns: minmax(9.5rem, 1.5fr) minmax(5.4rem, .65fr) minmax(8.2rem, .9fr) auto !important;
+}
+
+/* The scratch mark is the direct burn control after a story/backpack tag is
+   selected helpfully. Give it a larger hit area without drawing a button box. */
+.backpack-entry.is-helpful-selected .backpack-entry-scratch,
+.story-tracker-slip.is-helpful-selected .tracker-slip-scratch {
+  min-width: 1.65rem !important;
+  min-height: 1.65rem !important;
+}
+
+@media (max-width: 720px) {
+  .tracker-add-popover > .quick-add-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .tracker-add-popover > .quick-add-grid > input:first-child {
+    grid-column: 1 / -1 !important;
+  }
+  .tracker-add-popover > .quick-add-grid > .button {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* ===== Roll contribution ledger ===== */
+/*
+ * Roll contribution and status polarity
+ *
+ * The roller reads like a short annotated rules line: the things currently
+ * contributing are rendered with the same marker language used by Mist text.
+ * Controls stay as tiny ink glyphs beside the mark instead of expanding into
+ * a second management UI.
+ */
+
+/* --------------------------------------------------------------------------
+   Helpful vs hindering statuses: this is a property of the tracker itself.
+   -------------------------------------------------------------------------- */
+.status-tracker-slip.is-default-helpful {
+  --status-native-ink: #4d8061;
+  --status-native-wash: rgba(188, 205, 175, .22);
+  --status-native-track: #78946f;
+  --status-native-track-edge: #637f61;
+}
+
+.status-tracker-slip.is-default-hindering {
+  --status-native-ink: #9b513d;
+  --status-native-wash: rgba(236, 186, 133, .24);
+  --status-native-track: #b36f55;
+  --status-native-track-edge: #945743;
+}
+
+.status-tracker-slip::after {
+  content: "";
+  position: absolute;
+  inset: .18rem auto .18rem .12rem;
+  width: .18rem;
+  pointer-events: none;
+  opacity: .72;
+  background: var(--status-native-ink);
+  clip-path: polygon(40% 0, 100% 8%, 62% 31%, 95% 55%, 54% 100%, 0 93%, 28% 64%, 0 33%);
+}
+
+.status-tracker-slip:not(.is-helpful-selected):not(.is-hindering-selected) {
+  background:
+    linear-gradient(90deg, var(--status-native-wash), transparent 31%),
+    url('/assets/foundry-parchment.webp') center / cover !important;
+}
+
+.status-tracker-slip:not(.is-helpful-selected):not(.is-hindering-selected) .tracker-slip-leaf,
+.status-tracker-slip:not(.is-helpful-selected):not(.is-hindering-selected) .tracker-slip-main > span,
+.status-tracker-slip:not(.is-helpful-selected):not(.is-hindering-selected) .status-polarity-toggle {
+  color: var(--status-native-ink) !important;
+}
+
+.status-tracker-slip .tracker-slip-main > span {
+  opacity: .9 !important;
+}
+
+.status-tracker-slip.is-default-helpful .status-box-track > button:not(.status-reduce-control).is-marked,
+.status-tracker-slip.is-default-hindering .status-box-track > button:not(.status-reduce-control).is-marked {
+  background: var(--status-native-track) !important;
+  border-color: var(--status-native-track-edge) !important;
+}
+
+.status-tracker-slip.is-default-helpful .status-box-track > button:not(.status-reduce-control):not(.is-marked) {
+  background: rgba(188, 205, 175, .19) !important;
+  border-color: rgba(91, 125, 91, .37) !important;
+}
+
+.status-tracker-slip.is-default-hindering .status-box-track > button:not(.status-reduce-control):not(.is-marked) {
+  background: rgba(236, 186, 133, .16) !important;
+  border-color: rgba(151, 82, 62, .32) !important;
+}
+
+/* Roll selection always wins over the native/default accent. */
+.status-tracker-slip.is-helpful-selected { --status-native-ink: #477159; }
+.status-tracker-slip.is-hindering-selected { --status-native-ink: #a4543f; }
+
+/* --------------------------------------------------------------------------
+   Compact contribution ledger
+   -------------------------------------------------------------------------- */
+.roll-folio-ledger {
+  align-items: flex-start !important;
+}
+
+.roll-contribution-overview {
+  flex: 1 1 24rem;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+}
+
+.roll-contribution-label {
+  flex: 0 0 auto;
+  padding-top: .32rem;
+  color: #8b7158;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.roll-contribution-list {
+  min-width: 0;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .2rem .42rem;
+}
+
+.roll-contribution {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.55rem;
+  isolation: isolate;
+}
+
+.roll-contribution.has-rule-warning::before {
+  content: "!";
+  position: absolute;
+  z-index: 4;
+  top: -.18rem;
+  left: -.15rem;
+  color: #a5533e;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .45rem;
+  font-weight: 800;
+}
+
+.roll-contribution-token {
+  all: unset;
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: baseline;
+  gap: .12rem;
+  max-width: 16rem;
+  padding: .08rem .14rem .1rem !important;
+  color: #48372b !important;
+  cursor: pointer;
+  font-family: "Labrada", Georgia, serif !important;
+  font-size: .72rem !important;
+  font-style: italic;
+  font-weight: 650;
+  line-height: 1.08 !important;
+  white-space: normal;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.roll-contribution-token > span {
+  display: inline;
+  padding: 0 .04em .02em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Helpful tags are yellow; helpful statuses are green. Anything hindering is
+   the weakness/negative orange. The token's meaning is readable without a +/−
+   badge, while the tiny flip glyph remains immediately available. */
+.roll-contribution-token.kind-tag.is-helpful > span {
+  background: linear-gradient(177deg, transparent 0 53%, rgba(239,214,147,.86) 54% 92%, transparent 94%) !important;
+}
+
+.roll-contribution-token.kind-status.is-helpful > span {
+  background: linear-gradient(177deg, transparent 0 52%, rgba(188,205,175,.88) 53% 92%, transparent 94%) !important;
+}
+
+.roll-contribution-token.is-hindering > span {
+  color: #704535;
+  background: linear-gradient(176deg, transparent 0 50%, rgba(236,186,133,.88) 52% 93%, transparent 95%) !important;
+}
+
+.roll-contribution-token:hover > span,
+.roll-contribution-token:focus-visible > span {
+  filter: saturate(1.08) contrast(1.03);
+}
+
+.roll-contribution-token:focus-visible {
+  outline: 1px dashed rgba(104, 77, 48, .5);
+  outline-offset: 2px;
+}
+
+.roll-contribution-weakness-icon {
+  width: .72rem;
+  height: .62rem;
+  flex: 0 0 auto;
+  align-self: center;
+  color: #9d553d;
+  transform: translateY(.06rem);
+}
+
+.roll-contribution-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: .02rem;
+  margin-left: .03rem;
+  opacity: .42;
+  transition: opacity .12s ease;
+}
+
+.roll-contribution:hover .roll-contribution-tools,
+.roll-contribution:focus-within .roll-contribution-tools {
+  opacity: 1;
+}
+
+.roll-contribution-tools > button {
+  all: unset;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-grid;
+  place-items: center;
+  color: #7e6853;
+  cursor: pointer;
+  font-family: "IM Fell English", Georgia, serif;
+  font-size: .68rem;
+  line-height: 1;
+}
+
+.roll-contribution-tools > button:hover,
+.roll-contribution-tools > button:focus-visible {
+  color: #4c382b;
+  background: linear-gradient(transparent 62%, rgba(239,214,147,.42) 63% 88%, transparent 89%);
+}
+
+.roll-contribution-flip {
+  font-size: .76rem !important;
+  font-weight: 800;
+}
+.roll-contribution.is-helpful .roll-contribution-flip { color: #9b523e; }
+.roll-contribution.is-hindering .roll-contribution-flip { color: #477159; }
+
+.roll-contribution-burn svg {
+  width: .82rem !important;
+  height: .82rem !important;
+  opacity: .7;
+}
+.roll-contribution-burn.is-active {
+  color: #9d513c !important;
+  opacity: 1;
+}
+.roll-contribution-burn.is-active::after {
+  content: "+3";
+  position: absolute;
+  margin: -.72rem 0 0 .6rem;
+  color: #934b38;
+  font-size: .34rem;
+  font-weight: 800;
+}
+
+.roll-contribution-fumbling {
+  width: 1.1rem !important;
+  font-size: .48rem !important;
+  font-weight: 800;
+}
+.roll-contribution-fumbling.is-active {
+  color: #7c3f35 !important;
+  text-decoration: underline;
+}
+
+.roll-contribution-remove {
+  color: #a08770 !important;
+  font-size: .78rem !important;
+}
+
+/* The arithmetic is supporting information, not a second list of the same
+   selections. Keep it quiet and aligned to the right of the marked tokens. */
+.roll-contribution-overview + .roll-power-breakdown {
+  margin-left: auto;
+  padding-top: .24rem;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .roll-contribution-tools { opacity: .82; }
+  .roll-contribution-tools > button {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .roll-contribution-overview {
+    flex: 1 0 100%;
+    display: block;
+  }
+  .roll-contribution-label {
+    display: block;
+    margin-bottom: .18rem;
+    padding-top: 0;
+  }
+  .roll-contribution-list { gap: .25rem .5rem; }
+  .roll-contribution-overview + .roll-power-breakdown {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Highest-status clarity
+   Only the highest helpful and highest hindering status affect Power.
+   Lower statuses remain visibly invoked, but are explicitly de-emphasized.
+   -------------------------------------------------------------------------- */
+.roll-contribution.is-status {
+  gap: .16rem;
+}
+
+/* Highest-status clarity without extra prose: the status that actually
+   contributes remains full strength; lower/tied entries stay selected but
+   recede visually. */
+.roll-contribution.is-status-dropped .roll-contribution-token {
+  opacity: .46;
+}
+
+.roll-contribution.is-status-dropped:not(.is-status-tied)::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  left: .18rem;
+  right: 1.4rem;
+  top: 50%;
+  height: 1px;
+  background: rgba(111, 91, 70, .34);
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+
+.roll-contribution.is-status-tied .roll-contribution-token {
+  opacity: .62;
+}
+
+/* Polarity is switched by clicking the highlighted contribution itself. */
+.roll-contribution-tools {
+  margin-left: .08rem;
+}

@@ -1,0 +1,1983 @@
+/* ===== Responsive typography system =====
+ * The official book faces have a small optical x-height, so nominally tiny
+ * web sizes become hard to read quickly at the table. This layer is loaded
+ * last and establishes a readable floor without flattening the book-like
+ * hierarchy or changing game logic.
+ */
+
+:root {
+  --type-micro: clamp(.68rem, .65rem + .05vw, .72rem);
+  --type-caption: clamp(.73rem, .69rem + .07vw, .79rem);
+  --type-small: clamp(.78rem, .74rem + .08vw, .86rem);
+  --type-ui: clamp(.84rem, .79rem + .10vw, .94rem);
+  --type-body: clamp(.92rem, .86rem + .12vw, 1.02rem);
+  --type-lead: clamp(1rem, .93rem + .17vw, 1.14rem);
+  --type-section: clamp(1.08rem, 1rem + .20vw, 1.25rem);
+}
+
+/* Scale the whole product gently with viewing distance. Layout measurements
+   that use rem grow with it, so the change is deliberately restrained. */
+html {
+  font-size: clamp(16.5px, 15.65px + .16vw, 18px);
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  line-height: 1.38;
+}
+
+p,
+li,
+textarea,
+input,
+select {
+  line-height: 1.45;
+}
+
+/* -------------------------------------------------------------------------
+   Creation, app chrome and shared controls
+   ------------------------------------------------------------------------- */
+.eyebrow,
+.identity-grid label > span,
+.theme-fields label > span,
+.themebook-pick label > span,
+.development-dialog label > span,
+.action-description > span,
+.app-brand small,
+.hero-title-lockup .mini-brand,
+.promise-line,
+.reference-columns strong,
+.reference-title small,
+.inline-editor-heading > span,
+.utility-menu-heading,
+.utility-menu-footer span,
+.utility-menu-footer small,
+.utility-toggle-row em,
+.creation-standard-notes,
+.creation-check,
+.add-fellowship-card small,
+.add-fellowship-card strong {
+  font-size: var(--type-caption) !important;
+  line-height: 1.3 !important;
+}
+
+.creator-header p:not(.eyebrow),
+.themebook-summary span,
+.creation-check,
+.reference-columns p,
+.quick-reference p {
+  font-size: var(--type-ui) !important;
+  line-height: 1.46 !important;
+}
+
+.button.small,
+.choice-tabs button,
+.mode-tabs button,
+.view-switch button,
+.utility-menu button,
+.subtle-action,
+.inline-editor-heading button,
+.custom-special-add button {
+  font-size: var(--type-small) !important;
+}
+
+/* Keep form text comfortably larger than its labels. */
+.identity-grid input,
+.theme-fields input,
+.theme-fields textarea,
+.themebook-pick select,
+.development-dialog input,
+.development-dialog textarea,
+.development-dialog select,
+.action-description input,
+.quick-add-grid input,
+.quick-add-grid select,
+.inline-add input,
+.inline-add select,
+.power-summary select,
+.drawer-section input,
+.drawer-section textarea,
+.drawer-section select,
+.drawer-details input,
+.drawer-details textarea,
+.drawer-details select {
+  font-size: var(--type-ui) !important;
+  line-height: 1.42 !important;
+}
+
+/* -------------------------------------------------------------------------
+   Main Hero sheet
+   ------------------------------------------------------------------------- */
+.theme-card-header span {
+  font-size: clamp(.88rem, .83rem + .08vw, .96rem) !important;
+  line-height: 1.12 !important;
+}
+
+.theme-card-header small {
+  font-size: var(--type-micro) !important;
+  line-height: 1.15 !important;
+}
+
+.theme-title-action {
+  font-size: clamp(1.5rem, 1.22rem + .65vw, 2.05rem) !important;
+  line-height: .95 !important;
+}
+
+.paper-tag,
+.weakness-copy {
+  font-size: clamp(.9rem, .85rem + .08vw, .98rem) !important;
+  line-height: 1.16 !important;
+}
+
+.paper-tag.is-scratched::after,
+.fellowship-tag-control .paper-tag small {
+  font-size: var(--type-micro) !important;
+}
+
+.track > span,
+.track-label-button,
+.track-ready,
+.quest-block > span,
+.special-block > span,
+.compact-special-block summary,
+.developed-tag-divider span,
+.status-limit-note {
+  font-size: var(--type-micro) !important;
+  line-height: 1.2 !important;
+}
+
+.quest-block p,
+.compact-special-block article small,
+.compact-special-block article em,
+.special-ability-list small,
+.special-ability-list em,
+.ability-config-list article p {
+  font-size: var(--type-small) !important;
+  line-height: 1.42 !important;
+}
+
+.compact-special-block article strong,
+.special-ability-list strong {
+  font-size: var(--type-ui) !important;
+  line-height: 1.28 !important;
+}
+
+/* Backpack / secondary handouts */
+.reference-card h2,
+.backpack-title strong,
+.fellowship-card > header h2,
+.scene-board-heading h2,
+.chronicle-panel > summary strong {
+  line-height: 1.15 !important;
+}
+
+.backpack-card li,
+.backpack-entry,
+.relationship-tag-main,
+.relationship-tag-main span,
+.relationship-tag-main small {
+  font-size: var(--type-small) !important;
+  line-height: 1.36 !important;
+}
+
+.backpack-title > div > span,
+.backpack-title > div > small,
+.backpack-title small,
+.backpack-title em,
+.backpack-add-options label > span,
+.story-add-options label > span {
+  font-size: var(--type-caption) !important;
+}
+
+/* Fellowship */
+.fellowship-title-row strong {
+  font-size: var(--type-lead) !important;
+  line-height: 1.14 !important;
+}
+
+.fellowship-title-row span,
+.relationship-strip > strong,
+.relationship-strip > small,
+.relationship-strip > button span,
+.relationship-strip > button small,
+.fellowship-specials-inline > summary,
+.fellowship-special-list strong,
+.fellowship-special-list p,
+.fellowship-evolution-trades summary,
+.fellowship-evolution-trades label,
+.fellowship-evolution-trades > small {
+  font-size: var(--type-caption) !important;
+  line-height: 1.38 !important;
+}
+
+.fellowship-special-list button {
+  font-size: var(--type-micro) !important;
+  min-height: 1.85rem;
+}
+
+/* Scene tracker */
+.tracker-slip-main > span,
+.status-leaf-kicker,
+.story-leaf-kicker,
+.story-theme-title small,
+.scene-rack-title > span,
+.status-leaf-select small,
+.story-leaf-select small,
+.status-card-limit,
+.status-card-limit select {
+  font-size: var(--type-micro) !important;
+  line-height: 1.18 !important;
+}
+
+.tracker-slip-main > strong,
+.status-leaf-select strong,
+.story-leaf-select strong {
+  font-size: var(--type-ui) !important;
+  line-height: 1.2 !important;
+}
+
+.tracker-slip-main > small,
+.status-card-menu label,
+.status-card-menu button,
+.story-chip-select small,
+.world-tag-strip h3 {
+  font-size: var(--type-caption) !important;
+  line-height: 1.32 !important;
+}
+
+/* -------------------------------------------------------------------------
+   Drawers, Journey and Camp
+   ------------------------------------------------------------------------- */
+.drawer-header .eyebrow,
+.drawer-section-title span,
+.drawer-section label > span,
+.drawer-details label > span,
+.drawer-section-title strong,
+.portrait-file-button,
+.portrait-file-name,
+.manual-track-controls span,
+.micro-details summary,
+.retirement-correction span,
+.fulfillment-history-list time,
+.quintessence-list small,
+.quintessence-list em,
+.quintessence-charge-waiting,
+.quintessence-nine-lives-select > span,
+.stored-power-note,
+.stored-power-row small,
+.special-rule-preview,
+.fulfillment-benefit-choice > small,
+.fulfillment-benefit-choice legend {
+  font-size: var(--type-caption) !important;
+  line-height: 1.4 !important;
+}
+
+.drawer-section-title strong,
+.drawer-details > summary,
+.quintessence-list strong,
+.stored-power-row strong,
+.fulfillment-history-list strong {
+  font-size: var(--type-ui) !important;
+  line-height: 1.3 !important;
+}
+
+.fulfillment-history-list p,
+.drawer-section p,
+.drawer-details p,
+.camp-mini-help p,
+.camp-mini-help small {
+  font-size: var(--type-small) !important;
+  line-height: 1.46 !important;
+}
+
+.sheet-drawer.has-structured-scroll > .drawer-footer .button,
+.development-drawer .dialog-footer .button {
+  font-size: var(--type-small) !important;
+  min-height: 2.35rem !important;
+}
+
+/* Camp/Sojourn */
+.camp-period > header strong,
+.camp-activity-tabs button,
+.camp-reflect-row button,
+.camp-action-row button,
+.quality-time-grid > button,
+.camp-teamwork-toggle,
+.camp-total-power,
+.camp-power-chip,
+.camp-haven-tag-use select {
+  font-size: var(--type-small) !important;
+  line-height: 1.25 !important;
+}
+
+.camp-period > header small,
+.camp-power-field > span,
+.camp-haven-tag-use > span,
+.camp-recovery-grid > div > strong,
+.camp-recovery-grid > div > button,
+.camp-recovery-grid > div > button small,
+.third-period-toggle {
+  font-size: var(--type-caption) !important;
+  line-height: 1.32 !important;
+}
+
+.camp-reflect-row select,
+.camp-action-row input,
+.camp-action-stack > input,
+.quality-time-grid input,
+.quality-time-grid select {
+  font-size: var(--type-ui) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Roll/action folio
+   ------------------------------------------------------------------------- */
+.roll-contribution-label,
+.roll-power-breakdown,
+.roll-empty-selection,
+.roll-result-copy small,
+.action-invocations > summary > span,
+.action-invocations > summary > em,
+.invocation-name small,
+.rule-advisory-row,
+.result-rule-note,
+.roll-contribution-surge,
+.roll-contribution-relationship-weakness {
+  font-size: var(--type-caption) !important;
+  line-height: 1.36 !important;
+}
+
+.roll-contribution-token,
+.invocation-name strong,
+.action-invocations > summary > strong,
+.roll-result-copy strong,
+.roll-throw-button strong {
+  font-size: var(--type-ui) !important;
+  line-height: 1.25 !important;
+}
+
+.roll-contribution-tools > button,
+.roll-contribution-fumbling,
+.roll-contribution-remove,
+.result-override-actions button {
+  font-size: var(--type-small) !important;
+}
+
+.roll-contribution-burn.is-active::after,
+.roll-contribution.has-rule-warning::before,
+.tag-scratch-button.is-roll-burn::before,
+.backpack-entry-scratch.is-roll-burn::before,
+.tracker-slip-scratch.is-roll-burn::before {
+  font-size: var(--type-micro) !important;
+  line-height: 1 !important;
+}
+
+/* -------------------------------------------------------------------------
+   How to Play handout
+   ------------------------------------------------------------------------- */
+.reference-card.dark-reference.litm-how-to-guide .guide-power-box > span b {
+  display: inline !important;
+  padding: 0 .08em .02em !important;
+  color: #fff2d6 !important;
+  background-color: transparent !important;
+  background-image: linear-gradient(
+    178deg,
+    transparent 0 60%,
+    rgba(214, 157, 66, .34) 61% 90%,
+    transparent 92%
+  ) !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+}
+
+.reference-card.dark-reference.litm-how-to-guide .guide-intro,
+.reference-card.dark-reference.litm-how-to-guide .guide-side-reference p,
+.reference-card.dark-reference.litm-how-to-guide .guide-power-box,
+.reference-card.dark-reference.litm-how-to-guide .guide-effect-list,
+.reference-card.dark-reference.litm-how-to-guide .guide-reaction-results,
+.reference-card.dark-reference.litm-how-to-guide .guide-development p,
+.reference-card.dark-reference.litm-how-to-guide .guide-outcomes > div {
+  font-size: var(--type-ui) !important;
+  line-height: 1.44 !important;
+}
+
+.reference-card.dark-reference.litm-how-to-guide h2 {
+  font-size: clamp(1.38rem, 1.2rem + .45vw, 1.68rem) !important;
+  line-height: 1.05 !important;
+}
+
+.reference-card.dark-reference.litm-how-to-guide h3 {
+  font-size: var(--type-lead) !important;
+  line-height: 1.16 !important;
+}
+
+.reference-card.dark-reference.litm-how-to-guide .guide-step {
+  font-size: clamp(.9rem, .84rem + .10vw, .98rem) !important;
+  line-height: 1.24 !important;
+}
+
+.reference-card.dark-reference.litm-how-to-guide .guide-step > strong,
+.reference-card.dark-reference.litm-how-to-guide .guide-development > div > b,
+.reference-card.dark-reference.litm-how-to-guide .guide-sheet-gestures p {
+  font-size: var(--type-small) !important;
+  line-height: 1.38 !important;
+}
+
+/* -------------------------------------------------------------------------
+   Responsive guardrails
+   ------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  :root {
+    --type-micro: .69rem;
+    --type-caption: .75rem;
+    --type-small: .81rem;
+    --type-ui: .88rem;
+    --type-body: .95rem;
+  }
+
+  /* Historical tablet rules deliberately shrank theme text to fit four cards.
+     Let wrapping/grid behavior solve width instead of shrinking the typography. */
+  .theme-card-header span { font-size: .9rem !important; }
+  .paper-tag { font-size: .94rem !important; }
+  .theme-title-action { font-size: clamp(1.55rem, 4vw, 1.95rem) !important; }
+
+  .drawer-section-title span {
+    max-width: 62% !important;
+    text-align: right;
+  }
+
+  .roll-contribution-token { max-width: min(20rem, 72vw); }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --type-micro: .71rem;
+    --type-caption: .77rem;
+    --type-small: .84rem;
+    --type-ui: .91rem;
+    --type-body: .98rem;
+  }
+
+  /* 16px-equivalent form text prevents mobile browser zoom and is easier to
+     use during play. Checkboxes/radios retain their native compact geometry. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .button,
+  .sheet-drawer.has-structured-scroll > .drawer-footer .button,
+  .development-drawer .dialog-footer .button {
+    min-height: 2.65rem !important;
+    font-size: .88rem !important;
+  }
+
+  .camp-activity-tabs button,
+  .camp-reflect-row button,
+  .camp-action-row button,
+  .quality-time-grid > button,
+  .roll-contribution-tools > button,
+  .fellowship-special-list button {
+    min-height: 2.25rem !important;
+  }
+
+  .theme-card-header small,
+  .track > span,
+  .track-label-button,
+  .quest-block > span,
+  .compact-special-block summary {
+    font-size: .72rem !important;
+  }
+
+  .drawer-section-title {
+    align-items: flex-start !important;
+  }
+  .drawer-section-title span {
+    max-width: none !important;
+    text-align: left !important;
+  }
+
+  .roll-contribution-label {
+    margin-bottom: .28rem;
+  }
+}
+
+@media (max-width: 430px) {
+  html { font-size: 16.5px; }
+
+  .theme-title-action { font-size: 1.62rem !important; }
+  .paper-tag { font-size: .94rem !important; }
+
+  .hero-title-lockup h1 {
+    font-size: clamp(2.7rem, 15vw, 4rem) !important;
+    line-height: .88 !important;
+  }
+
+  .reference-card.dark-reference.litm-how-to-guide h2 {
+    font-size: 1.38rem !important;
+  }
+
+  .reference-card.dark-reference.litm-how-to-guide .guide-step {
+    font-size: .94rem !important;
+  }
+}
+
+/* Wide screens are often viewed from farther away. Increase text, not density. */
+@media (min-width: 1600px) {
+  :root {
+    --type-micro: .7rem;
+    --type-caption: .76rem;
+    --type-small: .83rem;
+    --type-ui: .9rem;
+    --type-body: 1rem;
+  }
+
+  .theme-card-header span { font-size: .94rem !important; }
+  .paper-tag { font-size: .96rem !important; }
+  .quest-block p { font-size: .88rem !important; }
+}
+
+/* -------------------------------------------------------------------------
+   Legacy micro-text normalization
+
+   The stylesheet has accumulated several visual passes over time. Some older
+   selectors still carry 6–10px-era values even though their components remain
+   live. Normalize those surviving labels here instead of letting historical
+   component density dictate readability.
+   ------------------------------------------------------------------------- */
+.promise-badge,
+.power-summary span,
+.action-tag-row small,
+.burn-toggle,
+.status-card small,
+.status-marks span,
+.mini-actions button,
+.chronicle-list time,
+.selection-power,
+.selected-action-heading > strong,
+.selected-action-heading button,
+.selected-chip-copy small,
+.selected-burn-toggle,
+.select-hint,
+.story-chip-power,
+.portrait-fulfillment-button,
+.theme-development-ready,
+.promise-card-title span,
+.reflect-card span,
+.journey-assets-card span,
+.promise-meta,
+.compact-buttons .button,
+.theme-development-name small,
+.development-mini-tracks span,
+.development-ready-copy button,
+.quest-guide-toggle,
+.quest-kinds span,
+.milestone-planner input,
+.quintessence-strip span,
+.special-picker button span,
+.fulfillment-option-grid button span,
+.quintessence-picker button span,
+.trade-panel label,
+.trade-panel small,
+.validation-note,
+.quintessence-picker button small,
+.exceptional-change,
+.quintessence-strip select,
+.quintessence-strip small,
+.header-journey-button span,
+.sheet-journey-shortcut > button,
+.idle-action-bar span,
+.idle-action-bar > button,
+.compact-mode-tabs button,
+.compact-might-select span,
+.compact-power-badge span,
+.compact-action-meta,
+.compact-result-row small,
+.compact-effect-spender button,
+.inline-tag-editor > span,
+.quick-development-actions button,
+.drawer-action-row button,
+.full-width-action,
+.simple-list,
+.portrait-upload input,
+.portrait-preview button,
+.journey-theme-copy span,
+.journey-theme-actions button,
+.quintessence-row strong,
+.quintessence-row select,
+.secondary-improvement-choices summary,
+.evolution-review summary,
+.evolution-review summary span,
+.soft-rule-note,
+.custom-theme-type-field > span,
+.creator-table-override button,
+.special-ability-list > article > button,
+.editable-status-marks button,
+.status-limit-control,
+.story-add-options select,
+.story-add-options input,
+.action-more-panel label,
+.action-more-panel input,
+.action-more-panel select,
+.action-more-panel small,
+.quintessence-list select,
+.quintessence-list button,
+.uses-stepper span,
+.burn-flame-button,
+.status-leaf-tools > button,
+.tracker-add-details > summary,
+.compact-table-details > summary small,
+.compact-table-details > summary em,
+.status-card-menu > summary,
+.story-leaf-select em,
+.status-table-options > summary,
+.status-table-options > label,
+.tracker-lane-heading span,
+.tracker-lane-heading small,
+.tracker-add-popover > summary,
+.status-selection-power,
+.backpack-add-details > summary,
+.backpack-add-options select,
+.backpack-add-options input,
+.burn-flame-button span,
+.backpack-quick-entry input,
+.story-quick-entry input,
+.backpack-quick-entry button,
+.story-quick-entry button,
+.story-tag-options > summary,
+.tracker-slip-power,
+.burn-scratch-button span,
+.past-theme-card small,
+.development-history-list > strong,
+.development-history-list p,
+.development-history-list time,
+.utility-menu button small,
+.character-switch-copy > small,
+.character-switch-copy > small > span,
+.character-library-toolbar .button,
+.mist-syntax-hint > summary,
+.backpack-banner .backpack-add-details > summary,
+.sheet-top-strip.is-focus-mode .backpack-add-details > summary,
+.utility-menu-label,
+.journey-quintessence-item[open] > summary > em::before,
+.roll-idle-copy > span,
+.roll-folio-title > span,
+.roll-idle-copy small,
+.roll-folio-title small,
+.roll-mode-tabs button,
+.roll-action-line > span,
+.roll-might-control > span,
+.roll-power-seal span,
+.roll-more-toggle,
+.roll-effect-spender button,
+.invocation-burn span {
+  font-size: var(--type-caption) !important;
+  line-height: 1.32 !important;
+}
+
+.special-block li,
+.story-columns h3,
+.selected-action-heading > strong,
+.quintessence-row strong,
+.development-history-list p,
+.simple-list {
+  font-size: var(--type-small) !important;
+  line-height: 1.42 !important;
+}
+
+/* A few tiny badges communicate an actual value and need to remain legible,
+   even though they are visually subordinate. */
+.roll-contribution-burn.is-active::after,
+.status-limit-note,
+.tracker-slip-power,
+.status-selection-power,
+.story-chip-power,
+.selection-power {
+  min-width: max-content;
+  font-weight: 800;
+}
+
+/* Let compact textual controls grow with their copy instead of clipping when
+   translated, zoomed, or viewed with the larger mobile type scale. */
+:where(
+  .compact-buttons .button,
+  .compact-mode-tabs button,
+  .compact-effect-spender button,
+  .quick-development-actions button,
+  .drawer-action-row button,
+  .journey-theme-actions button,
+  .mini-actions button,
+  .roll-mode-tabs button,
+  .roll-effect-spender button,
+  .fellowship-special-list button
+) {
+  height: auto !important;
+  min-height: 2rem;
+  white-space: normal;
+}
+
+/* -------------------------------------------------------------------------
+   Compact Hero folio rail
+
+   The portrait remains a strong character anchor, but it no longer claims a
+   percentage of the viewport forever. On wide screens it behaves like a
+   bounded folio card; on narrower screens it becomes a horizontal identity
+   banner, and on phones it folds into a shallow cinematic header.
+   ------------------------------------------------------------------------- */
+.character-sheet {
+  grid-template-columns: clamp(276px, 18vw, 332px) minmax(0, 1fr) !important;
+  align-items: start;
+}
+
+.hero-portrait-rail {
+  position: sticky !important;
+  top: 4.15rem;
+  align-self: start;
+  width: calc(100% - .82rem);
+  height: auto !important;
+  min-height: 0 !important;
+  margin: .82rem 0 .82rem .82rem;
+  overflow: hidden;
+  border: 1px solid rgba(222, 198, 158, .15);
+  border-radius: 2px;
+  box-shadow:
+    inset -1px 0 rgba(239,218,182,.08),
+    0 12px 30px rgba(7,8,6,.25) !important;
+}
+
+.hero-portrait-rail .portrait-art {
+  flex: none !important;
+  width: 100%;
+  min-height: 0 !important;
+  max-height: 430px;
+  aspect-ratio: 4 / 5;
+  background-position: center 18%;
+}
+
+.hero-portrait-rail .portrait-art::after {
+  background:
+    linear-gradient(to bottom, rgba(9,14,11,.02) 24%, rgba(10,15,12,.14) 54%, rgba(13,18,15,.92) 100%);
+}
+
+.hero-title-lockup {
+  left: 1rem !important;
+  right: .9rem !important;
+  bottom: .9rem !important;
+}
+
+.hero-title-lockup .mini-brand {
+  margin-bottom: .28rem !important;
+  opacity: .78;
+}
+
+.hero-title-lockup h1 {
+  max-width: 100%;
+  margin: 0 !important;
+  font-size: clamp(2.25rem, 2rem + .8vw, 3.15rem) !important;
+  line-height: .88 !important;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.hero-title-lockup > span {
+  display: inline-block;
+  margin-top: .28rem;
+  font-size: var(--type-caption) !important;
+  line-height: 1.2 !important;
+}
+
+.hero-concept-card {
+  padding: .9rem 1rem 1rem !important;
+}
+
+.hero-concept-edit-line {
+  align-items: flex-start;
+}
+
+.hero-concept-card p {
+  margin: 0;
+  font-size: var(--type-ui) !important;
+  line-height: 1.42 !important;
+}
+
+/* Promise is a track, not a score badge. The five pips mirror the game
+   language and make the whole row a quiet doorway into Journey. */
+.promise-track-button {
+  width: 100%;
+  margin-top: .82rem;
+  padding: .72rem 0 .14rem;
+  border: 0;
+  border-top: 1px solid rgba(241, 222, 189, .17);
+  color: #eadfc8;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.promise-track-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .8rem;
+}
+
+.promise-track-heading strong {
+  color: #f2e7d2;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-small);
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.promise-track-heading small {
+  color: #bcae96;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-caption);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.promise-track-heading small::after {
+  content: ' ›';
+  color: #d0b57f;
+}
+
+.promise-track-pips {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, .78rem);
+  justify-content: space-between;
+  width: min(100%, 10.5rem);
+  margin-top: .62rem;
+}
+
+.promise-track-pips::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: .35rem;
+  right: .35rem;
+  height: 1px;
+  background: rgba(205, 182, 142, .32);
+  transform: translateY(-50%);
+}
+
+.promise-track-pips > span {
+  position: relative;
+  z-index: 1;
+  width: .78rem;
+  height: .78rem;
+  border: 1px solid rgba(218, 197, 160, .64);
+  border-radius: 50%;
+  background: #182019;
+  box-shadow: 0 0 0 2px rgba(24, 32, 25, .9);
+  transition: transform .14s ease, background-color .14s ease, border-color .14s ease;
+}
+
+.promise-track-pips > span.is-marked {
+  border-color: #e6c982;
+  background: radial-gradient(circle at 36% 32%, #f7e4ac 0 20%, #c99d50 24% 64%, #79572c 100%);
+}
+
+.promise-track-button:hover .promise-track-heading small,
+.promise-track-button:focus-visible .promise-track-heading small {
+  color: #ead3a2;
+}
+
+.promise-track-button:hover .promise-track-pips > span,
+.promise-track-button:focus-visible .promise-track-pips > span {
+  border-color: #e0c284;
+  transform: translateY(-1px);
+}
+
+.promise-track-button:focus-visible {
+  outline: 1px solid rgba(224,194,132,.72);
+  outline-offset: 5px;
+}
+
+.portrait-fulfillment-button {
+  margin-top: .72rem !important;
+  padding: .48rem .58rem !important;
+  border-color: rgba(210,166,82,.4) !important;
+  background: rgba(209,169,92,.08) !important;
+  font-size: var(--type-caption) !important;
+  line-height: 1.28 !important;
+}
+
+.sheet-content {
+  min-width: 0;
+  min-height: calc(100vh - 3.35rem);
+}
+
+/* A conventional laptop still benefits from the rail. Keep its width bounded
+   and let the play sheet take every remaining pixel. */
+@media (max-width: 1250px) and (min-width: 1051px) {
+  .character-sheet {
+    grid-template-columns: 276px minmax(0, 1fr) !important;
+  }
+
+  .hero-portrait-rail .portrait-art {
+    max-height: 390px;
+  }
+
+  .hero-title-lockup h1 {
+    font-size: clamp(2.15rem, 3.4vw, 2.75rem) !important;
+  }
+}
+
+/* Tablet and narrow-laptop layout: the identity panel becomes a compact
+   horizontal banner instead of squeezing the playable sheet into a thin
+   column. */
+@media (max-width: 1050px) {
+  .character-sheet {
+    display: block !important;
+  }
+
+  .hero-portrait-rail {
+    position: relative !important;
+    top: auto;
+    display: grid;
+    grid-template-columns: clamp(210px, 29vw, 270px) minmax(0, 1fr);
+    width: auto;
+    min-height: 0 !important;
+    margin: 0;
+    border-width: 0 0 1px;
+    border-radius: 0;
+    box-shadow: 0 8px 24px rgba(7,8,6,.2) !important;
+  }
+
+  .hero-portrait-rail .portrait-art {
+    min-height: 0 !important;
+    max-height: none;
+    aspect-ratio: 5 / 4;
+    background-position: center 23%;
+  }
+
+  .hero-concept-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 1rem clamp(1rem, 3vw, 1.65rem) !important;
+    border-top: 0 !important;
+    border-left: 1px solid rgba(255,255,255,.11);
+  }
+
+  .hero-concept-card p {
+    max-width: 46rem;
+    font-size: var(--type-body) !important;
+  }
+
+  .promise-track-button {
+    max-width: 24rem;
+  }
+
+  .portrait-fulfillment-button {
+    width: fit-content !important;
+    max-width: 100%;
+  }
+
+  .sheet-content {
+    min-height: 0;
+    box-shadow: inset 0 12px 28px rgba(67,50,31,.045) !important;
+  }
+}
+
+/* Phone layout: keep the portrait drama, but make it shallow enough that the
+   first game controls are visible after a short scroll. */
+@media (max-width: 650px) {
+  .hero-portrait-rail {
+    display: block;
+  }
+
+  .hero-portrait-rail .portrait-art {
+    width: 100%;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 8.5;
+    background-position: center 22%;
+  }
+
+  .hero-title-lockup {
+    left: .9rem !important;
+    right: .8rem !important;
+    bottom: .72rem !important;
+  }
+
+  .hero-title-lockup .mini-brand {
+    display: none;
+  }
+
+  .hero-title-lockup h1 {
+    font-size: clamp(2.35rem, 11vw, 3.4rem) !important;
+  }
+
+  .hero-concept-card {
+    display: block;
+    padding: .78rem .9rem .88rem !important;
+    border-left: 0;
+    border-top: 1px solid rgba(255,255,255,.11) !important;
+  }
+
+  .hero-concept-card p {
+    font-size: var(--type-ui) !important;
+  }
+
+  .promise-track-button {
+    max-width: none;
+    margin-top: .65rem;
+    padding-top: .6rem;
+  }
+
+  .promise-track-pips {
+    width: min(11.5rem, 72vw);
+  }
+}
+
+@media (max-width: 390px) {
+  .hero-portrait-rail .portrait-art {
+    aspect-ratio: 16 / 9.2;
+  }
+
+  .hero-title-lockup h1 {
+    font-size: clamp(2.15rem, 10.5vw, 2.75rem) !important;
+  }
+
+  .promise-track-pips {
+    grid-template-columns: repeat(5, .72rem);
+    width: min(10rem, 78vw);
+  }
+
+  .promise-track-pips > span {
+    width: .72rem;
+    height: .72rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Integrated Hero rail + application chrome
+
+   On desktop the left column is one continuous Hero surface: application
+   controls at the top, character art through the body, and long-term Hero
+   state at the foot. The old horizontal header is folded into this rail so
+   the playable folio begins at the top of the viewport. Tablet/mobile turn
+   the same component back into a compact horizontal app header + Hero banner.
+   ------------------------------------------------------------------------- */
+.character-sheet {
+  width: min(1920px, 100%) !important;
+  min-height: 100vh !important;
+  grid-template-columns: clamp(270px, 18vw, 318px) minmax(0, 1fr) !important;
+  align-items: stretch !important;
+}
+
+.hero-portrait-rail {
+  position: sticky !important;
+  z-index: 90;
+  top: 0 !important;
+  align-self: start;
+  display: flex !important;
+  flex-direction: column;
+  width: 100% !important;
+  height: 100vh !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(222, 198, 158, .14) !important;
+  border-radius: 0 !important;
+  color: #fff4dd;
+  background-color: #18211b;
+  background-position: center 18%;
+  background-size: cover;
+  box-shadow: 12px 0 34px rgba(7,8,6,.16) !important;
+  isolation: isolate;
+}
+
+.hero-portrait-rail::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8,12,10,.32) 0 8%, rgba(8,12,10,.03) 24%, rgba(8,12,10,.08) 47%, rgba(11,16,13,.66) 68%, rgba(14,19,16,.96) 100%),
+    linear-gradient(90deg, rgba(5,8,6,.16), transparent 44%, rgba(5,8,6,.12));
+}
+
+.hero-portrait-rail > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* The app bar is now the engraved top edge of the Hero folio, not a page-wide
+   toolbar. */
+.hero-portrait-rail .rail-app-header {
+  position: relative !important;
+  z-index: 12 !important;
+  top: auto !important;
+  display: flex !important;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: .35rem;
+  width: 100%;
+  min-height: 3.45rem !important;
+  padding: .42rem .55rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(235,216,180,.13) !important;
+  background:
+    linear-gradient(180deg, rgba(16,20,17,.97), rgba(14,18,15,.88)) !important;
+  box-shadow: 0 5px 18px rgba(0,0,0,.16) !important;
+  backdrop-filter: blur(8px);
+}
+
+.hero-portrait-rail .character-switcher {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero-portrait-rail .character-switch-trigger {
+  max-width: 100%;
+  gap: .48rem;
+  padding-right: .15rem;
+}
+
+.hero-portrait-rail .brand-rune {
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.22rem;
+}
+
+.hero-portrait-rail .character-switch-copy > strong {
+  font-size: var(--type-small) !important;
+  line-height: 1.05;
+}
+
+.hero-portrait-rail .character-switch-copy > small {
+  max-width: 7.5rem;
+  color: #b4a995;
+  font-size: var(--type-micro) !important;
+}
+
+.hero-portrait-rail .compact-app-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: .15rem !important;
+  margin-left: auto;
+}
+
+.hero-portrait-rail .header-history-controls {
+  display: flex;
+  align-items: center;
+}
+
+.hero-portrait-rail .header-history-controls .header-undo-button {
+  width: 1.75rem;
+  min-width: 1.75rem;
+  min-height: 1.8rem;
+  padding: 0 !important;
+  justify-content: center;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+.hero-portrait-rail .header-history-controls .header-undo-button em {
+  display: none !important;
+}
+
+.hero-portrait-rail .header-history-controls .header-undo-button span {
+  font-size: .88rem;
+}
+
+.hero-portrait-rail .header-more-button {
+  min-width: 1.9rem !important;
+  min-height: 1.8rem !important;
+  padding: 0 .18rem !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+/* Menus open beside the rail instead of being clipped inside the artwork. */
+@media (min-width: 1051px) {
+  .hero-portrait-rail .character-switch-popover {
+    z-index: 420 !important;
+    top: -.1rem;
+    left: calc(100% + .62rem);
+    width: min(360px, calc(100vw - 340px));
+  }
+
+  .hero-portrait-rail .utility-menu {
+    z-index: 420 !important;
+    position: absolute !important;
+    top: -.12rem !important;
+    right: auto !important;
+    left: calc(100% + .62rem) !important;
+    width: min(19rem, calc(100vw - 340px)) !important;
+    max-height: calc(100vh - 1rem);
+    overflow-y: auto;
+  }
+}
+
+/* Art occupies every unclaimed pixel. With an uploaded portrait, the image is
+   painted on the whole rail so it continues behind the identity/development
+   treatment instead of ending in a rectangular photo card. */
+.hero-portrait-rail .portrait-art {
+  flex: 1 1 auto !important;
+  width: 100%;
+  min-height: 12rem !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  overflow: hidden;
+  background-color: transparent !important;
+  background-position: center 18%;
+  background-size: cover;
+}
+
+.hero-portrait-rail.has-image .portrait-art {
+  background-image: none !important;
+}
+
+.hero-portrait-rail .portrait-art::after {
+  background: linear-gradient(to bottom, transparent 34%, rgba(8,12,10,.08) 56%, rgba(10,14,12,.72) 100%) !important;
+}
+
+.hero-title-lockup {
+  left: 1rem !important;
+  right: .9rem !important;
+  bottom: .85rem !important;
+}
+
+.hero-title-lockup .mini-brand {
+  display: none !important;
+}
+
+.hero-title-lockup h1 {
+  font-size: clamp(2.45rem, 2.05rem + 1.3vw, 3.45rem) !important;
+  line-height: .86 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,.42);
+}
+
+.hero-title-lockup > span {
+  color: #eadfc8;
+}
+
+/* The lower panel is a translucent writing area over the same portrait, not a
+   second card. Promise + Quintessences give the rail a persistent purpose. */
+.hero-concept-card {
+  flex: 0 0 auto;
+  max-height: 48vh;
+  overflow-y: auto;
+  padding: .86rem 1rem 1rem !important;
+  border-top: 1px solid rgba(241,222,189,.15) !important;
+  background:
+    linear-gradient(180deg, rgba(29,32,27,.72), rgba(17,22,18,.95)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+  backdrop-filter: blur(7px) saturate(.86);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(205,181,140,.3) transparent;
+}
+
+.hero-concept-card p {
+  color: #ddd1bb;
+}
+
+.promise-track-button {
+  margin-top: .72rem !important;
+  padding: .66rem 0 .15rem !important;
+}
+
+.promise-track-heading small {
+  color: #ab9f8a;
+  font-size: var(--type-micro) !important;
+  letter-spacing: .025em;
+}
+
+.promise-track-heading small::after {
+  content: '' !important;
+}
+
+.promise-track-pips {
+  grid-template-columns: repeat(5, .74rem) !important;
+  width: min(100%, 11.25rem) !important;
+  margin-top: .58rem !important;
+}
+
+.promise-track-pips > span {
+  width: .74rem !important;
+  height: .74rem !important;
+}
+
+.hero-rail-quintessences {
+  margin-top: .72rem;
+  padding-top: .68rem;
+  border-top: 1px solid rgba(241,222,189,.15);
+}
+
+.hero-rail-quintessence-heading {
+  display: flex;
+  width: 100%;
+  min-height: 1.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .7rem;
+}
+
+.hero-rail-quintessence-heading > div {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+}
+
+.hero-rail-quintessence-heading strong {
+  color: #f1e5d0;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-small);
+  font-weight: 700;
+  letter-spacing: .115em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.hero-rail-quintessence-heading small {
+  color: #ab9f8a;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-micro);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hero-rail-quintessence-heading > button {
+  flex: 0 0 auto;
+  min-height: 1.45rem;
+  padding: .15rem .08rem;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  color: #b9aa91;
+  background: transparent;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-micro);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.hero-rail-quintessence-heading > button:hover,
+.hero-rail-quintessence-heading > button:focus-visible {
+  border-bottom-color: rgba(224,194,132,.48);
+  color: #fff0d5;
+  outline: none;
+}
+
+.hero-rail-quintessence-list {
+  display: grid;
+  gap: .08rem;
+  margin-top: .38rem;
+}
+
+.hero-rail-quintessence-item {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(235,216,180,.08);
+  color: #d7cab3;
+  background: transparent;
+}
+
+.hero-rail-quintessence-item > summary {
+  min-height: 2rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .6rem;
+  padding: .34rem .08rem;
+  cursor: pointer;
+  list-style: none;
+  color: inherit;
+}
+
+.hero-rail-quintessence-item > summary::-webkit-details-marker { display: none; }
+.hero-rail-quintessence-item > summary::marker { content: ''; }
+.hero-rail-quintessence-item > summary::before {
+  content: '›';
+  flex: 0 0 auto;
+  margin-right: -.22rem;
+  color: rgba(218,190,143,.55);
+  font: 700 .78rem/1 var(--litm-font-small, Georgia, serif);
+  transform: translateY(.04rem);
+  transition: transform .12s ease, color .12s ease;
+}
+.hero-rail-quintessence-item[open] > summary::before {
+  color: #dfc28f;
+  transform: rotate(90deg) translateX(.03rem);
+}
+
+.hero-rail-quintessence-item > summary > span {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  font-family: var(--font-litm-body, Labrada, Georgia, serif);
+  font-size: var(--type-ui);
+  font-style: italic;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-rail-quintessence-item > summary > small {
+  flex: 0 0 auto;
+  color: #a99a83;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-micro);
+  font-style: normal;
+  text-transform: lowercase;
+}
+
+.hero-rail-quintessence-item > summary:hover,
+.hero-rail-quintessence-item > summary:focus-visible {
+  color: #f2e2c6;
+  background: linear-gradient(90deg, rgba(220,186,124,.08), transparent);
+  outline: none;
+}
+
+.hero-rail-quintessence-item > summary:focus-visible,
+.hero-rail-quintessence-empty:focus-visible {
+  outline: 1px solid rgba(224,194,132,.62);
+  outline-offset: 2px;
+}
+
+.hero-rail-quintessence-item.is-used > summary {
+  color: #9d907d;
+}
+
+.hero-rail-quintessence-detail {
+  display: grid;
+  gap: .52rem;
+  padding: .12rem .24rem .7rem 1rem;
+}
+
+.hero-rail-quintessence-detail > p {
+  margin: 0;
+  color: #cdbfa8 !important;
+  font-family: var(--font-litm-body, Labrada, Georgia, serif);
+  font-size: var(--type-caption) !important;
+  font-style: italic;
+  line-height: 1.38;
+}
+
+.hero-rail-quintessence-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .24rem .55rem;
+  color: #a99b86;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-micro);
+  line-height: 1.25;
+}
+
+.hero-rail-quintessence-meta b {
+  color: #d5c4a7;
+  font-weight: 700;
+}
+
+.hero-rail-quintessence-actions {
+  display: grid;
+  gap: .32rem;
+}
+
+.hero-rail-quintessence-actions > button,
+.hero-rail-quintessence-actions select {
+  width: 100%;
+  min-height: 2rem;
+  padding: .34rem .48rem;
+  border: 1px solid rgba(222,195,150,.18);
+  color: #dfd0b8;
+  background: rgba(255,255,255,.035);
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-caption);
+  text-align: left;
+}
+
+.hero-rail-quintessence-actions > button:hover,
+.hero-rail-quintessence-actions > button:focus-visible,
+.hero-rail-quintessence-actions select:focus-visible {
+  border-color: rgba(222,195,150,.38);
+  background: rgba(220,186,124,.08);
+  outline: none;
+}
+
+.hero-rail-quintessence-actions > button.is-used {
+  color: #a99c88;
+}
+
+.hero-rail-quintessence-actions label {
+  display: grid;
+  gap: .22rem;
+  color: #aa9d88;
+  font-family: var(--litm-font-small, var(--book-small, Georgia, serif));
+  font-size: var(--type-micro);
+}
+
+.hero-rail-quintessence-actions option {
+  color: #332c25;
+}
+
+.hero-rail-quintessence-ready {
+  color: #998c79;
+  font-family: var(--font-litm-body, Labrada, Georgia, serif);
+  font-size: var(--type-micro);
+  font-style: italic;
+}
+
+.hero-rail-quintessence-empty {
+  width: 100%;
+  min-height: 1.75rem;
+  margin-top: .3rem;
+  padding: .24rem .08rem;
+  border: 0;
+  color: #9f927e;
+  background: transparent;
+  font-family: var(--font-litm-body, Labrada, Georgia, serif);
+  font-size: var(--type-caption);
+  font-style: italic;
+  text-align: left;
+}
+
+.hero-rail-quintessence-empty:hover {
+  color: #f2e2c6;
+  background: linear-gradient(90deg, rgba(220,186,124,.08), transparent);
+}
+
+.portrait-fulfillment-button {
+  width: 100% !important;
+}
+
+.sheet-content {
+  min-width: 0;
+  min-height: 100vh !important;
+  padding-top: .8rem !important;
+}
+
+/* Narrow laptop: keep the integrated rail, but preserve maximum play width. */
+@media (max-width: 1250px) and (min-width: 1051px) {
+  .character-sheet {
+    grid-template-columns: 270px minmax(0, 1fr) !important;
+  }
+
+  .hero-title-lockup h1 {
+    font-size: clamp(2.25rem, 3.4vw, 2.85rem) !important;
+  }
+
+  .hero-concept-card {
+    padding-inline: .88rem !important;
+  }
+}
+
+/* Tablet / narrow laptop: the top controls become a conventional horizontal
+   app bar again; the Hero itself becomes one short two-column banner. */
+@media (max-width: 1050px) {
+  .character-sheet {
+    display: block !important;
+    min-height: 0 !important;
+  }
+
+  .hero-portrait-rail {
+    position: relative !important;
+    top: auto !important;
+    display: grid !important;
+    grid-template-columns: clamp(210px, 29vw, 270px) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(222,198,158,.14) !important;
+    background-position: center 24%;
+    box-shadow: 0 8px 24px rgba(7,8,6,.2) !important;
+  }
+
+  .hero-portrait-rail .rail-app-header {
+    position: sticky !important;
+    z-index: 80 !important;
+    top: 0 !important;
+    grid-column: 1 / -1;
+    min-height: 3.45rem !important;
+    padding-inline: .7rem !important;
+    background: rgba(15,19,16,.97) !important;
+  }
+
+  .hero-portrait-rail .character-switch-copy > small {
+    max-width: 10rem;
+  }
+
+  .hero-portrait-rail .portrait-art {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 220px !important;
+    aspect-ratio: 5 / 4 !important;
+  }
+
+  .hero-concept-card {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    max-height: none;
+    overflow: visible;
+    padding: 1rem clamp(1rem, 3vw, 1.6rem) !important;
+    border-top: 0 !important;
+    border-left: 1px solid rgba(255,255,255,.1);
+    background: rgba(18,23,19,.88) !important;
+  }
+
+  .hero-concept-card p {
+    max-width: 42rem;
+  }
+
+  .promise-track-button {
+    max-width: 25rem;
+  }
+
+  .hero-rail-quintessences {
+    max-width: 34rem;
+  }
+
+  .hero-rail-quintessence-list {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-portrait-rail .character-switch-popover {
+    position: fixed;
+    top: 3.85rem;
+    left: .6rem;
+    right: .6rem;
+    width: auto;
+  }
+
+  .hero-portrait-rail .utility-menu {
+    position: fixed !important;
+    top: 3.85rem !important;
+    right: .6rem !important;
+    left: auto !important;
+    width: min(22rem, calc(100vw - 1.2rem)) !important;
+    max-height: calc(100vh - 4.5rem);
+    overflow-y: auto;
+  }
+
+  .sheet-content {
+    min-height: 0 !important;
+    padding-top: .75rem !important;
+  }
+}
+
+/* Phone: familiar app bar on top, then a shallow cinematic Hero card. Promise
+   remains immediately visible; Quintessences stay as compact disclosure rows so
+   their rules remain available without duplicating a second shelf in the sheet. */
+@media (max-width: 650px) {
+  .hero-portrait-rail {
+    display: block !important;
+    background-position: center 20%;
+  }
+
+  .hero-portrait-rail .rail-app-header {
+    display: flex !important;
+    min-height: 3.35rem !important;
+    padding: .38rem .5rem !important;
+  }
+
+  .hero-portrait-rail .brand-rune {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .hero-portrait-rail .character-switch-copy > strong {
+    display: block !important;
+    font-size: var(--type-caption) !important;
+  }
+
+  .hero-portrait-rail .character-switch-copy > small {
+    max-width: 7.4rem;
+  }
+
+  .hero-portrait-rail .portrait-art {
+    width: 100%;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 8.5 !important;
+  }
+
+  .hero-title-lockup h1 {
+    font-size: clamp(2.35rem, 11vw, 3.4rem) !important;
+  }
+
+  .hero-concept-card {
+    display: block !important;
+    max-height: none;
+    overflow: visible;
+    padding: .78rem .9rem .9rem !important;
+    border-top: 1px solid rgba(255,255,255,.11) !important;
+    border-left: 0;
+    background: rgba(17,22,18,.94) !important;
+  }
+
+  .promise-track-button {
+    max-width: none;
+    margin-top: .62rem !important;
+  }
+
+  .promise-track-pips {
+    width: min(11.5rem, 72vw) !important;
+  }
+
+  .hero-rail-quintessence-list {
+    display: grid;
+    gap: .06rem;
+  }
+
+  .hero-rail-quintessence-item {
+    width: 100%;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .hero-rail-quintessence-item > summary {
+    min-height: 2.15rem;
+  }
+
+  .hero-rail-quintessence-item > summary > span {
+    font-size: var(--type-ui);
+  }
+
+  .hero-rail-quintessence-detail {
+    padding-right: .08rem;
+  }
+
+  .hero-rail-quintessence-empty {
+    min-height: 1.7rem;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero-portrait-rail .character-switch-copy > strong {
+    display: none !important;
+  }
+
+  .hero-portrait-rail .character-switch-copy > small {
+    max-width: 5.8rem;
+  }
+
+  .hero-portrait-rail .header-history-controls .header-undo-button {
+    width: 1.6rem;
+    min-width: 1.6rem;
+  }
+
+  .hero-portrait-rail .portrait-art {
+    aspect-ratio: 16 / 9.2 !important;
+  }
+}
+
+/* Keep the compact app chrome available after the Hero banner scrolls away on
+   tablet/phone. Once the sidebar stops being persistent, the same control bar
+   becomes viewport chrome again. */
+@media (max-width: 1050px) {
+  .hero-portrait-rail {
+    box-sizing: border-box;
+    grid-template-rows: auto !important;
+    padding-top: 3.45rem !important;
+  }
+
+  .hero-portrait-rail .rail-app-header {
+    position: fixed !important;
+    z-index: 900 !important;
+    top: 0 !important;
+    right: 0;
+    left: 0;
+    width: 100% !important;
+  }
+
+  .hero-portrait-rail .portrait-art {
+    grid-row: 1 !important;
+  }
+
+  .hero-concept-card {
+    grid-row: 1 !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .hero-portrait-rail {
+    padding-top: 3.35rem !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   How to Play as an on-demand reference overlay
+
+   Rules reference is supporting material, not character state. Keeping it out
+   of the permanent sheet preserves a stable play layout: Backpack is always
+   the first paper prop, themes never jump, and opening the reference does not
+   reflow the character sheet.
+   ------------------------------------------------------------------------- */
+.sheet-top-strip.is-focus-mode {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  justify-content: stretch !important;
+  width: 100% !important;
+  margin-bottom: .55rem !important;
+}
+
+.sheet-top-strip.is-focus-mode .backpack-card {
+  width: 100% !important;
+  max-width: none !important;
+  justify-self: stretch !important;
+}
+
+@media (min-width: 1051px) {
+  .sheet-content {
+    padding-top: .48rem !important;
+  }
+}
+
+.has-play-reference-open {
+  overflow: hidden;
+}
+
+.play-reference-overlay {
+  position: fixed;
+  z-index: 5000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(.7rem, 2.4vw, 2rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: rgba(12, 14, 11, .68);
+  backdrop-filter: blur(4px) saturate(.78);
+  -webkit-backdrop-filter: blur(4px) saturate(.78);
+}
+
+.play-reference-dialog {
+  position: relative;
+  width: min(76rem, 100%);
+  max-height: calc(100vh - clamp(1.4rem, 4.8vw, 4rem));
+  overflow: auto;
+  isolation: isolate;
+  filter: drop-shadow(0 1.25rem 2.2rem rgba(0, 0, 0, .42));
+  scrollbar-width: thin;
+  scrollbar-color: rgba(226, 197, 147, .34) transparent;
+}
+
+.play-reference-dialog::-webkit-scrollbar {
+  width: 8px;
+}
+
+.play-reference-dialog::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.play-reference-dialog::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(226, 197, 147, .28);
+}
+
+.play-reference-dialog .litm-how-to-guide {
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: clamp(1rem, 1.2rem + .35vw, 1.55rem) !important;
+}
+
+.play-reference-dialog .guide-heading-row {
+  padding-right: 2.6rem;
+}
+
+.play-reference-close {
+  position: absolute;
+  z-index: 6;
+  top: .72rem;
+  right: .82rem;
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  padding: 0;
+  border: 1px solid rgba(240, 220, 187, .3);
+  border-radius: 50%;
+  color: #f3e6d0;
+  background: rgba(27, 23, 19, .72);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 .15rem .45rem rgba(0,0,0,.2);
+  font-family: Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.play-reference-close:hover,
+.play-reference-close:focus-visible {
+  border-color: rgba(231, 171, 80, .78);
+  color: #fff7e8;
+  background: rgba(52, 41, 31, .92);
+  outline: 2px solid rgba(220, 153, 55, .38);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1050px) {
+  .sheet-content {
+    padding-top: .62rem !important;
+  }
+
+  .play-reference-overlay {
+    align-items: flex-start;
+  }
+
+  .play-reference-dialog {
+    max-height: calc(100dvh - 1.4rem);
+    margin-block: 0;
+  }
+}
+
+@media (max-width: 650px) {
+  .sheet-top-strip.is-focus-mode {
+    margin-bottom: .45rem !important;
+  }
+
+  .play-reference-overlay {
+    padding: .45rem;
+    background: rgba(10, 12, 10, .76);
+  }
+
+  .play-reference-dialog {
+    width: 100%;
+    max-height: calc(100dvh - .9rem);
+  }
+
+  .play-reference-dialog .litm-how-to-guide {
+    padding: 1rem .9rem 1.1rem !important;
+  }
+
+  .play-reference-dialog .guide-heading-row {
+    padding-right: 2.25rem;
+  }
+
+  .play-reference-close {
+    top: .55rem;
+    right: .55rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.3rem;
+  }
+}

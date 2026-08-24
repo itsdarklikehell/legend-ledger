@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 180" preserveAspectRatio="none">
+  <defs>
+    <filter id="r" x="-5%" y="-15%" width="110%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .11" numOctaves="2" seed="47" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6"/>
+    </filter>
+    <filter id="w" x="-5%" y="-15%" width="110%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency=".04 .11" numOctaves="3" seed="53" result="n"/>
+      <feColorMatrix in="n" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .2 0" result="a"/>
+      <feBlend in="SourceGraphic" in2="a" mode="multiply"/>
+    </filter>
+    <linearGradient id="g" y2="1">
+      <stop stop-color="#b77a43"/>
+      <stop offset=".58" stop-color="#a56838"/>
+      <stop offset="1" stop-color="#8c542f"/>
+    </linearGradient>
+    <path id="ochre" d="M9 9 C145 1 271 15 395 7 C524 -1 643 15 762 7 C851 2 918 11 991 5 C996 58 989 116 993 170 C861 177 727 165 593 173 C458 180 320 165 188 173 C111 177 62 169 8 174 C3 118 12 62 9 9Z"/>
+    <clipPath id="ochreClip"><use href="#ochre"/></clipPath>
+  </defs>
+
+  <use href="#ochre" filter="url(#r)" fill="url(#g)"/>
+  <g clip-path="url(#ochreClip)">
+    <rect x="0" y="0" width="1000" height="180" fill="#fff" opacity=".05" filter="url(#w)"/>
+    <path d="M15 152 C196 143 350 159 520 151 C685 143 846 159 985 149" stroke="#5b371f" stroke-opacity=".2" stroke-width="6" fill="none"/>
+  </g>
+</svg>

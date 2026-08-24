@@ -1,0 +1,1163 @@
+/* ===== Sheet layout ===== */
+/*
+ * Sheet layout
+ *
+ * Keeps the illustrated-paper direction while fixing the places where the
+ * smaller deckled silhouettes exposed ordinary web-layout problems: stacking,
+ * unsafe edge insets, cramped utilities and the focus-mode Backpack.
+ */
+
+:root {
+  --paper-safe-x: clamp(.72rem, 1vw, 1rem);
+  --paper-safe-y: .68rem;
+}
+
+/* -------------------------------------------------------------------------
+   Layering: paper props may overlap, but their actual controls must always
+   rise above neighbouring sheets while active.
+   ------------------------------------------------------------------------- */
+.sheet-content,
+.sheet-top-strip,
+.themes-row,
+.theme-card,
+.fellowship-card,
+.tabletop-section {
+  position: relative;
+}
+
+.sheet-top-strip { z-index: 40; }
+.themes-row { z-index: 10; }
+.fellowship-card,
+.action-dock-wrap,
+.tabletop-section { z-index: 5; }
+
+.theme-card { z-index: 1; }
+.theme-card:is(:hover, :focus-within) { z-index: 24; }
+
+.quick-edit.is-open,
+.backpack-add-details[open],
+.tracker-add-popover[open] {
+  z-index: 240 !important;
+}
+
+.quick-edit-popover,
+.backpack-add-controls,
+.tracker-add-popover > .quick-add-grid,
+.tracker-add-popover > .story-add-stack {
+  z-index: 260 !important;
+}
+
+/* A filtered/deckled parent creates a stacking context. Give the whole paper
+   piece a higher layer while a contained popover is open. */
+.backpack-card:has(.backpack-add-details[open]),
+.theme-card:has(.quick-edit.is-open),
+.scene-board-heading:has(.tracker-add-popover[open]) {
+  z-index: 220 !important;
+}
+
+/* -------------------------------------------------------------------------
+   Backpack
+
+   One coherent physical prop: ochre binding at the top, handwriting beneath.
+   The old focus layout stretched the binding through the tag rows, which made
+   the whole object look like a toolbar.
+   ------------------------------------------------------------------------- */
+.reference-card.backpack-card,
+.sheet-top-strip.is-focus-mode .backpack-card {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  padding: .44rem .58rem .56rem !important;
+  overflow: visible !important;
+  border: 0 !important;
+  background: url('/assets/litm-slip-paper.svg') center / 100% 100% no-repeat !important;
+  filter: drop-shadow(0 .34rem .3rem rgba(46, 33, 20, .14)) !important;
+  box-shadow: none !important;
+}
+
+.reference-card.backpack-card::before,
+.sheet-top-strip.is-focus-mode .backpack-card::before {
+  content: none !important;
+  display: none !important;
+}
+
+.backpack-banner {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  min-width: 0;
+  margin: -.15rem -.16rem .28rem !important;
+  padding: .46rem .72rem .42rem !important;
+  background: url('/assets/litm-slip-ochre.svg') center / 100% 100% no-repeat;
+}
+
+.reference-title.backpack-title,
+.sheet-top-strip.is-focus-mode .reference-title.backpack-title {
+  flex: 1 1 auto;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  align-self: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: .75rem;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.reference-title.backpack-title > div {
+  min-width: 0;
+  display: grid;
+  gap: .02rem;
+}
+
+.reference-title.backpack-title > div > span,
+.sheet-top-strip.is-focus-mode .reference-title.backpack-title > div > span {
+  color: #fff3df !important;
+  font-family: "IM Fell English", Georgia, serif !important;
+  font-size: .88rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: .04em !important;
+  text-shadow: 0 1px 1px rgba(57, 35, 20, .28);
+}
+
+.reference-title.backpack-title > div > small,
+.sheet-top-strip.is-focus-mode .reference-title.backpack-title > div > small {
+  color: rgba(255, 242, 218, .76) !important;
+  font-size: .42rem !important;
+  line-height: 1.1;
+  letter-spacing: .015em !important;
+}
+
+.reference-title.backpack-title > em {
+  margin-left: auto !important;
+  color: rgba(255, 239, 214, .68) !important;
+  font-size: .42rem !important;
+  white-space: nowrap;
+}
+.sheet-top-strip.is-focus-mode .reference-title.backpack-title > em { display: none !important; }
+
+.backpack-banner .backpack-add-details,
+.sheet-top-strip.is-focus-mode .backpack-add-details {
+  position: relative !important;
+  flex: 0 0 auto;
+  align-self: center !important;
+  margin: 0 !important;
+  border: 0 !important;
+}
+
+.backpack-banner .backpack-add-details > summary,
+.sheet-top-strip.is-focus-mode .backpack-add-details > summary {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: .28rem .42rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255, 241, 216, .34) !important;
+  background: transparent !important;
+  color: #fff0d8 !important;
+  font-family: "IM Fell English", Georgia, serif !important;
+  font-size: .46rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: .045em !important;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.backpack-banner .backpack-add-details > summary:hover,
+.backpack-banner .backpack-add-details > summary:focus-visible,
+.sheet-top-strip.is-focus-mode .backpack-add-details > summary:hover,
+.sheet-top-strip.is-focus-mode .backpack-add-details > summary:focus-visible {
+  color: #fff9ed !important;
+  border-bottom-color: rgba(255,255,255,.72) !important;
+  outline: 0 !important;
+}
+
+.backpack-add-controls,
+.sheet-top-strip.is-focus-mode .backpack-add-controls {
+  position: absolute !important;
+  top: calc(100% + .48rem) !important;
+  right: -.28rem !important;
+  width: min(27rem, calc(100vw - 2rem)) !important;
+  margin: 0 !important;
+  padding: .78rem .88rem .82rem !important;
+  border: 0 !important;
+  background: url('/assets/litm-slip-paper.svg') center / 100% 100% no-repeat !important;
+  filter: drop-shadow(0 .55rem .55rem rgba(35, 27, 18, .24));
+  box-shadow: none !important;
+}
+
+.backpack-pocket,
+.sheet-top-strip.is-focus-mode .backpack-pocket {
+  min-width: 0;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14.5rem), 1fr)) !important;
+  gap: 0 .9rem !important;
+  margin: 0 !important;
+  padding: .08rem .5rem .14rem !important;
+}
+
+.backpack-entry,
+.sheet-top-strip.is-focus-mode .backpack-entry {
+  min-width: 0 !important;
+  min-height: 2.2rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(114, 74, 50, .14) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.backpack-entry:hover,
+.sheet-top-strip.is-focus-mode .backpack-entry:hover {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2) 18% 82%, transparent) !important;
+}
+
+.backpack-entry.is-helpful-selected,
+.sheet-top-strip.is-focus-mode .backpack-entry.is-helpful-selected {
+  box-shadow: inset .16rem 0 var(--litm-origin) !important;
+}
+.backpack-entry.is-hindering-selected,
+.sheet-top-strip.is-focus-mode .backpack-entry.is-hindering-selected {
+  box-shadow: inset .16rem 0 #985137 !important;
+}
+
+.backpack-entry-main {
+  padding-inline: .18rem .28rem !important;
+}
+.backpack-entry-main strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.backpack-entry-actions {
+  padding-right: .08rem;
+}
+
+/* -------------------------------------------------------------------------
+   Safe content insets for irregular paper. The silhouette can be rough; text
+   and controls should still sit on a predictable inner writing area.
+   ------------------------------------------------------------------------- */
+.fellowship-card > header,
+.scene-board-heading,
+.chronicle-panel {
+  padding-left: var(--paper-safe-x) !important;
+  padding-right: var(--paper-safe-x) !important;
+}
+
+.fellowship-theme-core,
+.relationship-strip,
+.scene-rack-section {
+  padding-left: clamp(.82rem, 1.15vw, 1.08rem) !important;
+  padding-right: clamp(.82rem, 1.15vw, 1.08rem) !important;
+}
+
+.fellowship-card > header {
+  min-height: 3.15rem;
+  display: flex !important;
+  align-items: center !important;
+}
+.fellowship-card > header > div:first-child { min-width: 0; }
+.fellowship-card > header h2 {
+  overflow-wrap: anywhere;
+  line-height: 1.05;
+}
+.fellowship-header-actions { flex: 0 0 auto; }
+
+.fellowship-layout {
+  grid-template-columns: minmax(0, 1.55fr) minmax(15rem, .72fr) !important;
+  gap: .72rem !important;
+}
+.fellowship-theme-core,
+.relationship-strip {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+.fellowship-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: .35rem;
+  min-width: 0;
+}
+.fellowship-title-row strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.relationship-tag-wrap,
+.fellowship-tag-control {
+  min-width: 0;
+}
+
+/* Quest content should not hug the ragged edge of the fellowship sheet. */
+.fellowship-theme-core .quest-block {
+  margin-left: -.18rem !important;
+  margin-right: -.18rem !important;
+}
+
+/* -------------------------------------------------------------------------
+   Scene trackers: consistent alignment, no control overflow from the narrower
+   paper silhouettes.
+   ------------------------------------------------------------------------- */
+.scene-board-heading {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  min-width: 0;
+}
+.scene-board-heading > div:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.scene-board-subtitle {
+  max-width: 44rem !important;
+}
+.scene-board-adders {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: .38rem !important;
+  padding-right: .08rem;
+}
+.scene-board-adders .tracker-add-popover > summary {
+  min-width: 5rem !important;
+}
+
+.scene-rack {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: .68rem !important;
+}
+.scene-rack-section {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+.scene-rack-title {
+  min-width: 0;
+  flex-wrap: wrap;
+  row-gap: .12rem !important;
+}
+.scene-rack-title > small {
+  max-width: 100%;
+}
+
+.tracker-slip-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14.5rem), 1fr)) !important;
+  gap: .5rem !important;
+}
+.tracker-slip {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+.tracker-slip-heading {
+  grid-template-columns: 1.05rem minmax(0, 1fr) auto auto !important;
+  gap: .08rem;
+  min-width: 0;
+  padding-left: .54rem !important;
+  padding-right: .48rem !important;
+}
+.tracker-slip-main,
+.tracker-slip-main > strong {
+  min-width: 0;
+}
+.tracker-slip-actions {
+  flex: 0 0 auto;
+}
+.status-box-track {
+  grid-template-columns: repeat(6, minmax(1.3rem, 1fr)) auto !important;
+  min-width: 0;
+  padding-left: 1.5rem !important;
+  padding-right: .5rem !important;
+}
+
+/* The add popovers themselves are also paper props, not rectangular web cards. */
+.tracker-add-popover > .quick-add-grid,
+.tracker-add-popover > .story-add-stack,
+.quick-edit-popover {
+  border: 0 !important;
+  background: url('/assets/litm-slip-paper.svg') center / 100% 100% no-repeat !important;
+  filter: drop-shadow(0 .5rem .45rem rgba(38, 29, 19, .22));
+  box-shadow: none !important;
+}
+
+/* -------------------------------------------------------------------------
+   Responsive: preserve breathing room rather than squeezing controls through
+   deckled edges.
+   ------------------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .fellowship-layout {
+    grid-template-columns: minmax(0, 1.35fr) minmax(12rem, .75fr) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .backpack-banner {
+    align-items: flex-start;
+  }
+  .backpack-pocket,
+  .sheet-top-strip.is-focus-mode .backpack-pocket {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .fellowship-layout,
+  .scene-rack {
+    grid-template-columns: 1fr !important;
+  }
+  .scene-board-heading {
+    align-items: flex-start !important;
+    flex-direction: column;
+  }
+  .scene-board-adders {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .backpack-banner {
+    margin-inline: -.08rem !important;
+    padding-inline: .58rem !important;
+  }
+  .reference-title.backpack-title > em { display: none !important; }
+  .backpack-pocket,
+  .sheet-top-strip.is-focus-mode .backpack-pocket {
+    grid-template-columns: 1fr !important;
+    padding-inline: .36rem !important;
+  }
+  .backpack-add-controls,
+  .sheet-top-strip.is-focus-mode .backpack-add-controls,
+  .tracker-add-popover > .quick-add-grid,
+  .tracker-add-popover > .story-add-stack {
+    position: fixed !important;
+    z-index: 500 !important;
+    left: .65rem !important;
+    right: .65rem !important;
+    top: auto !important;
+    bottom: .65rem !important;
+    width: auto !important;
+    max-height: min(70vh, 34rem);
+    overflow: auto;
+  }
+  .fellowship-theme-core,
+  .relationship-strip,
+  .scene-rack-section {
+    padding-inline: .82rem !important;
+  }
+  .status-box-track {
+    grid-template-columns: repeat(6, minmax(1.1rem, 1fr)) auto !important;
+    padding-left: 1.2rem !important;
+  }
+}
+
+/* ===== Folio surfaces ===== */
+/* Folio UI: administrative tools as book-side paper, not web chrome. */
+:root {
+  --folio-paper:#efe4cf; --folio-ink:#3b3027; --folio-brown:#724a32;
+  --folio-gold:#d6a451; --folio-rule:rgba(103,77,49,.20);
+}
+
+.drawer-backdrop {
+  z-index:100 !important;
+  background:rgba(17,18,15,.56) !important;
+  backdrop-filter:blur(2px) saturate(.82) !important;
+}
+.sheet-drawer,.development-drawer {
+  position:relative !important; isolation:isolate;
+  width:min(590px,96vw) !important; height:100% !important;
+  padding-left:1rem !important; border:0 !important;
+  color:var(--folio-ink) !important;
+  background:linear-gradient(90deg,rgba(92,63,42,.12),transparent 1.4rem),url('/assets/foundry-parchment.webp') center/cover repeat-y !important;
+  box-shadow:none !important;
+  filter:drop-shadow(-1.2rem 0 1.25rem rgba(12,13,10,.34));
+  scrollbar-color:rgba(91,68,45,.38) transparent;
+}
+.sheet-drawer::before,.development-drawer::before {
+  content:""; position:absolute; z-index:8; inset:0 auto 0 0; width:1rem; pointer-events:none;
+  background:radial-gradient(circle at 72% 1rem,rgba(218,177,103,.42) 0 1px,transparent 1.5px) 0 0/100% 1.45rem repeat-y,linear-gradient(90deg,#201c18,#4b382d 48%,#76533c 74%,rgba(105,75,52,.35));
+  clip-path:polygon(15% 0,100% 0,92% 4%,100% 9%,86% 14%,100% 20%,90% 26%,100% 32%,87% 39%,100% 46%,91% 53%,100% 61%,86% 68%,100% 75%,90% 82%,100% 89%,84% 95%,100% 100%,12% 100%,0 94%,10% 87%,0 79%,8% 71%,0 63%,9% 54%,0 46%,8% 37%,0 29%,9% 21%,0 13%,10% 6%);
+  opacity:.9;
+}
+.sheet-drawer::after,.development-drawer::after {
+  content:""; position:absolute; z-index:1; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at 70% 5%,rgba(255,255,255,.28),transparent 24rem),linear-gradient(90deg,rgba(90,62,41,.055),transparent 3.5rem);
+  mix-blend-mode:multiply; opacity:.42;
+}
+.sheet-drawer>*,.development-drawer>* { position:relative; z-index:10; }
+
+.drawer-header,.development-drawer>header {
+  top:0 !important; min-height:6rem; margin:0 .7rem .2rem .2rem !important;
+  padding:1.15rem 1.2rem 1rem 1.35rem !important; border:0 !important;
+  color:#f8edda !important; background:url('/assets/litm-folio-header.svg') center/100% 100% no-repeat !important;
+  box-shadow:none !important; backdrop-filter:none !important;
+}
+.drawer-header::after,.development-drawer>header::after {
+  content:""; position:absolute; left:1.25rem; right:1.25rem; bottom:.72rem; height:1px;
+  background:linear-gradient(90deg,rgba(234,192,116,.7),rgba(234,192,116,.15),transparent);
+}
+.drawer-header .eyebrow,.development-drawer>header .eyebrow {
+  margin:0 0 .22rem !important; color:#ddb067 !important;
+  font-family:var(--font-litm-small,"IM Fell English",Georgia,serif) !important;
+  font-size:.58rem !important; letter-spacing:.13em !important;
+}
+.drawer-header h2,.development-drawer>header h2 {
+  margin:0 !important; max-width:26rem; color:#fff4df !important;
+  font-family:var(--font-litm-display,"Texturina",Georgia,serif) !important;
+  font-size:clamp(1.45rem,2vw,2rem) !important; font-weight:540 !important; line-height:1.05 !important; letter-spacing:-.015em !important;
+  text-shadow:0 1px 1px rgba(25,18,14,.35);
+}
+.drawer-close {
+  flex:0 0 auto; width:2.35rem !important; height:2.35rem !important; margin-top:-.08rem;
+  border:0 !important; border-radius:50% !important; color:rgba(255,244,224,.78) !important; background:transparent !important;
+  font-family:Georgia,serif !important; font-size:1.7rem !important; line-height:1 !important; text-shadow:0 1px rgba(0,0,0,.32);
+  transition:color .14s ease,transform .14s ease;
+}
+.drawer-close:hover,.drawer-close:focus-visible { color:#fff8eb !important; background:transparent !important; transform:rotate(4deg) scale(1.06); outline:none !important; }
+
+.drawer-section { margin:0 1rem 0 .75rem !important; padding:1rem .85rem 1.08rem !important; border:0 !important; background:transparent !important; }
+.drawer-section+.drawer-section { position:relative; }
+.drawer-section+.drawer-section::before {
+  content:""; position:absolute; top:0; left:.25rem; right:.25rem; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(105,78,48,.25) 8%,rgba(105,78,48,.18) 76%,transparent); box-shadow:0 1px rgba(255,255,255,.28);
+}
+.drawer-section-title { align-items:center !important; margin-bottom:.72rem !important; }
+.drawer-section-title strong,.drawer-details>summary {
+  color:#65442f !important; font-family:var(--font-litm-small,"IM Fell English",Georgia,serif) !important;
+  font-size:.69rem !important; font-weight:700 !important; letter-spacing:.075em !important; text-transform:uppercase !important;
+}
+.drawer-section-title strong::before { content:"◇"; display:inline-block; margin-right:.38rem; color:#a36f3e; font-size:.66rem; transform:translateY(-.03rem); }
+.drawer-section-title span { max-width:54%; color:#897662 !important; font-family:var(--font-litm-body,Labrada,Georgia,serif) !important; font-size:.58rem !important; font-style:italic; text-align:right; }
+.drawer-section label { gap:.18rem !important; margin-bottom:.7rem !important; }
+.drawer-section label>span { color:#806b56 !important; font-family:var(--font-litm-small,"IM Fell English",Georgia,serif) !important; font-size:.53rem !important; letter-spacing:.085em !important; }
+
+.drawer-section input:not([type="checkbox"]):not([type="radio"]),.drawer-section textarea,.drawer-section select,
+.development-drawer input:not([type="checkbox"]):not([type="radio"]),.development-drawer textarea,.development-drawer select {
+  min-height:2.35rem !important; padding:.48rem .35rem .38rem !important;
+  border:0 !important; border-bottom:1px solid rgba(99,74,47,.34) !important; border-radius:0 !important; outline:0 !important;
+  color:#46382d !important; background:linear-gradient(180deg,transparent 72%,rgba(210,183,130,.10) 72%) !important; box-shadow:none !important;
+  font-family:var(--font-litm-body,Labrada,Georgia,serif) !important;
+}
+.drawer-section textarea,.development-drawer textarea { min-height:5rem !important; resize:vertical; border:1px solid rgba(99,74,47,.18) !important; padding:.58rem .62rem !important; background:rgba(255,248,233,.20) !important; }
+.drawer-section input:focus,.drawer-section textarea:focus,.drawer-section select:focus,.development-drawer input:focus,.development-drawer textarea:focus,.development-drawer select:focus { border-color:rgba(164,108,49,.72) !important; box-shadow:0 2px 0 -1px rgba(164,108,49,.35) !important; }
+
+.drawer-details { padding-top:.85rem !important; padding-bottom:.9rem !important; }
+.drawer-details>summary { display:flex; align-items:center; gap:.45rem; cursor:pointer; list-style:none; }
+.drawer-details>summary::-webkit-details-marker { display:none; }
+.drawer-details>summary::before { content:"›"; color:#a16d3e; font-size:1rem; line-height:.7; transform:rotate(0deg); transition:transform .14s ease; }
+.drawer-details[open]>summary::before { transform:rotate(90deg); }
+.drawer-details p,.drawer-details small { color:#756451 !important; font-family:var(--font-litm-body,Labrada,Georgia,serif) !important; }
+
+.drawer-action-row,.quick-development-actions { gap:.65rem !important; }
+.drawer-action-row button,.quick-development-actions button,.full-width-action,.subtle-action,.theme-manager button.subtle-action {
+  min-height:1.85rem !important; padding:.28rem .18rem .2rem !important; border:0 !important; border-radius:0 !important;
+  color:#65422c !important; background:linear-gradient(transparent 58%,rgba(226,194,122,.40) 58% 92%,transparent 92%) !important; box-shadow:none !important;
+  font-family:var(--font-litm-small,"IM Fell English",Georgia,serif) !important; font-size:.61rem !important; font-weight:700 !important; letter-spacing:.02em;
+}
+.drawer-action-row button:hover,.drawer-action-row button:focus-visible,.quick-development-actions button:hover,.full-width-action:hover,.subtle-action:hover {
+  color:#3f2c20 !important; background:linear-gradient(transparent 50%,rgba(222,179,83,.57) 50% 94%,transparent 94%) !important; outline:none !important;
+}
+
+.drawer-footer {
+  z-index:30 !important; margin-left:.25rem; padding:.9rem 1.15rem 1rem 1.35rem !important;
+  border:0 !important; border-top:1px solid rgba(100,75,47,.19) !important;
+  background:linear-gradient(180deg,rgba(239,228,207,.55),rgba(239,228,207,.96) 25%),url('/assets/foundry-parchment.webp') center/cover !important;
+  box-shadow:0 -.45rem .8rem rgba(83,61,38,.05) !important; backdrop-filter:none !important;
+}
+.drawer-footer::before { content:""; position:absolute; left:1.25rem; right:1.1rem; top:.24rem; height:1px; background:linear-gradient(90deg,#b78549,transparent 72%); opacity:.42; }
+.drawer-footer .button,.development-drawer .dialog-footer .button { min-height:2.25rem !important; border-radius:0 !important; font-family:var(--font-litm-small,"IM Fell English",Georgia,serif) !important; font-size:.66rem !important; letter-spacing:.025em; }
+.drawer-footer .button.ghost,.development-drawer .button.ghost { border:0 !important; color:#74614e !important; background:transparent !important; box-shadow:none !important; }
+.drawer-footer .button.primary,.development-drawer .button.primary {
+  border:0 !important; color:#fff5e3 !important;
+  background:linear-gradient(rgba(44,69,52,.93),rgba(35,56,43,.96)),url('/assets/litm-dark-paper.webp') center/cover !important;
+  box-shadow:0 2px 0 #1d3327,0 5px 9px rgba(46,39,29,.16) !important;
+}
+
+.development-drawer { width:min(760px,97vw) !important; max-height:none !important; margin:0 !important; padding-top:0 !important; }
+.development-drawer .dialog-footer {
+  position:sticky !important; z-index:30; bottom:0; padding:.85rem 1rem 1rem !important;
+  background:linear-gradient(180deg,rgba(239,228,207,.65),rgba(239,228,207,.98) 28%),url('/assets/foundry-parchment.webp') center/cover !important;
+}
+
+/* Header utility menu: a small field note, not a system dropdown. */
+.utility-menu-wrap { position:relative; }
+.utility-menu {
+  top:calc(100% + .62rem) !important; right:-.15rem !important; width:min(326px,calc(100vw - 1rem)) !important; min-width:0 !important;
+  max-height:calc(100vh - 4.6rem); overflow:auto; padding:.8rem .82rem .72rem !important;
+  border:0 !important; border-radius:0 !important; color:var(--folio-ink) !important;
+  background:linear-gradient(112deg,rgba(255,255,255,.18),transparent 35%),url('/assets/foundry-parchment.webp') center/cover !important;
+  box-shadow:none !important; filter:drop-shadow(0 .8rem .85rem rgba(15,15,12,.35));
+  clip-path:polygon(1% 1.2%,19% .4%,39% 1%,60% .25%,80% .85%,99% .45%,99.4% 22%,98.9% 46%,99.5% 68%,98.9% 99%,78% 99.5%,58% 98.9%,38% 99.6%,18% 98.8%,.7% 99.5%,1.2% 76%,.5% 54%,1.1% 30%);
+}
+.utility-menu::before {
+  content:"FIELD NOTES"; display:block; margin:-.12rem .08rem .48rem; padding:.32rem .45rem .28rem;
+  color:#fff1dc; background:url('/assets/litm-folio-header.svg') center/100% 100% no-repeat;
+  font-family:var(--font-litm-small,"IM Fell English",Georgia,serif); font-size:.52rem; font-weight:700; letter-spacing:.13em;
+}
+.utility-menu-section { padding:.43rem .3rem .48rem !important; border:0 !important; position:relative; }
+.utility-menu-section+.utility-menu-section::before { content:""; position:absolute; left:.12rem; right:.12rem; top:0; height:1px; background:linear-gradient(90deg,transparent,rgba(111,83,53,.23) 8%,rgba(111,83,53,.15) 82%,transparent); }
+.utility-menu-label {
+  width:fit-content; margin:0 0 .24rem !important; padding:.1rem .34rem .06rem !important; color:#6d4933 !important;
+  background:linear-gradient(transparent 58%,rgba(225,190,111,.40) 58% 94%,transparent 94%);
+  font-family:var(--font-litm-small,"IM Fell English",Georgia,serif) !important; font-size:.5rem !important; letter-spacing:.105em !important;
+}
+.utility-menu button {
+  position:relative; display:grid !important; grid-template-columns:minmax(0,1fr) auto; align-items:center !important;
+  width:100%; min-height:2.35rem !important; gap:.15rem .6rem !important; padding:.42rem .28rem .43rem .72rem !important;
+  border:0 !important; border-radius:0 !important; color:#46392e !important; background:transparent !important; box-shadow:none !important;
+  font-family:var(--font-litm-body,Labrada,Georgia,serif) !important; font-size:.72rem !important; text-align:left;
+}
+.utility-menu button::before { content:"◇"; position:absolute; left:.02rem; top:.52rem; color:#a07245; font-size:.52rem; opacity:.8; }
+.utility-menu button::after { content:""; position:absolute; left:.7rem; right:.15rem; bottom:.04rem; height:1px; background:linear-gradient(90deg,rgba(105,81,54,.12),transparent 88%); }
+.utility-menu button:hover,.utility-menu button:focus-visible { color:#2f271f !important; background:linear-gradient(transparent 55%,rgba(227,197,127,.18) 55% 94%,transparent 94%) !important; outline:none !important; }
+.utility-menu button>span:first-child:not(:only-child) { display:grid; gap:.08rem; }
+.utility-menu button>span>strong,.utility-menu button>span:first-child,.utility-menu button:not(.utility-toggle-row) { font-weight:600; }
+.utility-menu button small { grid-column:1/-1; margin:0 !important; color:#8a7662 !important; font-family:var(--font-litm-body,Labrada,Georgia,serif) !important; font-size:.54rem !important; font-style:italic; line-height:1.16 !important; }
+.utility-menu button>span+small { grid-column:1/-1; }
+.utility-toggle-row em { grid-column:2; grid-row:1; min-width:0 !important; padding:.14rem .28rem !important; border:0 !important; color:#516d57 !important; background:linear-gradient(transparent 50%,rgba(188,205,175,.58) 50% 96%,transparent 96%) !important; font-size:.5rem !important; }
+.utility-toggle-row[aria-pressed="false"] em { color:#81715f !important; background:linear-gradient(transparent 50%,rgba(189,175,151,.25) 50% 96%,transparent 96%) !important; }
+.utility-menu-footer { margin:.18rem .3rem 0 !important; padding:.54rem .36rem .28rem !important; border-top:1px solid rgba(105,79,51,.16); color:#7f6c59 !important; }
+.utility-menu-footer span { color:#526b55 !important; font-family:var(--font-litm-small,"IM Fell English",Georgia,serif) !important; font-size:.5rem !important; }
+.utility-menu-footer small { color:#8a7662 !important; font-family:var(--font-litm-body,Labrada,Georgia,serif) !important; font-size:.49rem !important; font-style:italic; }
+.header-more-button[aria-expanded="true"],.header-more-button:hover,.header-more-button:focus-visible { border-color:transparent !important; background:transparent !important; color:#fff1db !important; text-shadow:0 0 10px rgba(221,176,103,.28); }
+
+/* Small alignment fix at the deckled scene heading. */
+.scene-board-heading { padding-left:max(1rem,var(--paper-safe-x,.9rem)) !important; padding-right:max(1rem,var(--paper-safe-x,.9rem)) !important; }
+.scene-board-heading .section-kicker,.scene-board-heading h2,.scene-board-heading>p { margin-left:.18rem !important; }
+
+@media (max-width:700px) {
+  .sheet-drawer,.development-drawer { width:100% !important; padding-left:.65rem !important; }
+  .sheet-drawer::before,.development-drawer::before { width:.65rem; }
+  .drawer-header,.development-drawer>header { margin-right:.35rem !important; padding-left:1rem !important; }
+  .drawer-section { margin-right:.55rem !important; margin-left:.35rem !important; padding-left:.55rem !important; padding-right:.55rem !important; }
+  .utility-menu { position:fixed !important; top:3.75rem !important; right:.5rem !important; width:calc(100vw - 1rem) !important; max-height:calc(100vh - 4.25rem); }
+}
+
+/* ===== Responsive and finishing layout ===== */
+/* Spacing, layering, folio drawers and stable theme artwork. */
+
+/* App chrome must own the top stacking plane. This keeps Field Notes above
+   Backpack and every paper prop instead of being trapped under the sheet. */
+.app-bar.minimal-app-bar {
+  z-index: 900 !important;
+  isolation: isolate;
+}
+.utility-menu-wrap { z-index: 1; }
+.utility-menu { z-index: 980 !important; }
+
+/* The green rule above During Play was a leftover app-section border. The
+   paper heading should define its own edge. */
+.tabletop-section {
+  border-top: 0 !important;
+  padding-top: .55rem !important;
+}
+.scene-board-v2 {
+  border-top: 0 !important;
+}
+.scene-board-heading {
+  margin-top: 0 !important;
+  padding-top: .72rem !important;
+}
+.scene-board-heading::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  top: .24rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(114,74,50,.27) 8%, rgba(114,74,50,.15) 82%, transparent);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------
+   Theme artwork
+   The old one-piece SVG scaled its painted header whenever a Special was
+   expanded. Split the physical card into a stretchable paper body and a
+   fixed-height painted header so disclosure content never distorts artwork.
+   --------------------------------------------------------------------- */
+.theme-card {
+  background-color: transparent !important;
+  background-position: center !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+}
+.theme-card.might-origin { background-image: url('/assets/litm-theme-body-origin.svg') !important; }
+.theme-card.might-adventure { background-image: url('/assets/litm-theme-body-adventure.svg') !important; }
+.theme-card.might-greatness { background-image: url('/assets/litm-theme-body-greatness.svg') !important; }
+
+.theme-card-header {
+  flex: 0 0 3.15rem !important;
+  min-height: 3.15rem !important;
+  height: 3.15rem !important;
+  box-sizing: border-box !important;
+  background-position: center !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+}
+.theme-card.might-origin .theme-card-header { background-image: url('/assets/litm-theme-header-origin.svg') !important; }
+.theme-card.might-adventure .theme-card-header { background-image: url('/assets/litm-theme-header-adventure.svg') !important; }
+.theme-card.might-greatness .theme-card-header { background-image: url('/assets/litm-theme-header-greatness.svg') !important; }
+.theme-card-header::after { bottom: .06rem !important; }
+
+/* Special disclosure grows only the card body. */
+.compact-special-block[open] {
+  contain: layout paint;
+}
+.compact-special-block[open] summary {
+  min-height: 1.15rem;
+}
+
+/* ---------------------------------------------------------------------
+   Field Notes: compact physical note, always above play props.
+   --------------------------------------------------------------------- */
+.utility-menu {
+  position: absolute !important;
+  top: calc(100% + .42rem) !important;
+  right: -.12rem !important;
+  width: min(310px, calc(100vw - 1rem)) !important;
+  max-height: min(76vh, 650px) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  padding: .62rem .68rem .62rem !important;
+  filter: drop-shadow(0 .9rem 1rem rgba(8,9,7,.44)) !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99,74,47,.38) transparent;
+}
+.utility-menu::before {
+  position: sticky;
+  top: -.62rem;
+  z-index: 3;
+  margin: -.08rem -.05rem .38rem !important;
+}
+.utility-menu-section { padding: .34rem .22rem .4rem !important; }
+.utility-menu button { min-height: 2rem !important; padding-block: .33rem !important; }
+.utility-menu button small { line-height: 1.1 !important; }
+
+/* ---------------------------------------------------------------------
+   Folio drawers
+   Treat editing as the inside cover of the same character folio: one stable
+   binding, a fixed painted title strip, a paper scroll, and an anchored
+   action strip. Scrolling no longer makes the drawer look like a long web
+   form sliding beneath unrelated chrome.
+   --------------------------------------------------------------------- */
+.drawer-backdrop {
+  z-index: 1200 !important;
+  background: rgba(13,15,12,.50) !important;
+  backdrop-filter: blur(3px) saturate(.78) !important;
+}
+.sheet-drawer,
+.development-drawer {
+  width: min(660px, 96vw) !important;
+  max-width: 96vw !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+  scroll-padding-top: 5.2rem;
+  scroll-padding-bottom: 5rem;
+  padding: 0 0 5rem .8rem !important;
+  border: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(76,50,33,.10), transparent 2.4rem),
+    url('/assets/foundry-parchment.webp') center / cover repeat-y !important;
+  filter: drop-shadow(-1.1rem 0 1.3rem rgba(7,8,6,.36));
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100,74,47,.40) rgba(255,255,255,.04);
+}
+.sheet-drawer::before,
+.development-drawer::before {
+  width: .8rem !important;
+  position: fixed !important;
+  top: 0 !important;
+  bottom: 0 !important;
+}
+.sheet-drawer::after,
+.development-drawer::after {
+  position: fixed !important;
+  inset: 0 0 0 auto !important;
+  width: min(660px, 96vw) !important;
+}
+
+.drawer-header,
+.development-drawer > header {
+  position: sticky !important;
+  z-index: 80 !important;
+  top: 0 !important;
+  min-height: 4.75rem !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: .86rem 1.18rem .92rem 1.32rem !important;
+  background: url('/assets/litm-folio-header.svg') center / 100% 100% no-repeat !important;
+  filter: drop-shadow(0 .28rem .25rem rgba(48,32,20,.16));
+}
+.drawer-header::after,
+.development-drawer > header::after { bottom: .5rem !important; }
+.drawer-header h2,
+.development-drawer > header h2 {
+  font-size: clamp(1.35rem, 2vw, 1.82rem) !important;
+  font-weight: 500 !important;
+}
+.drawer-close {
+  width: 2rem !important;
+  height: 2rem !important;
+  margin-top: 0 !important;
+  border: 1px solid rgba(255,238,213,.22) !important;
+  background: rgba(36,25,19,.13) !important;
+  font-size: 1.45rem !important;
+}
+.drawer-close:hover,
+.drawer-close:focus-visible { background: rgba(36,25,19,.24) !important; }
+
+.drawer-section {
+  margin: 0 .95rem 0 .72rem !important;
+  padding: .88rem .75rem .96rem !important;
+}
+.drawer-section-title {
+  align-items: flex-start !important;
+  gap: .8rem !important;
+}
+.drawer-section-title span { max-width: 48% !important; line-height: 1.25; }
+.drawer-details > summary {
+  min-height: 1.6rem;
+  padding-block: .1rem;
+}
+
+/* Editors should read as writing lines, while utilities remain compact and
+   aligned. */
+.inline-tag-editor,
+.ability-config-list,
+.relationship-editor-list {
+  min-width: 0;
+}
+.tag-edit-row,
+.weakness-edit-row,
+.relationship-edit-row {
+  min-width: 0;
+}
+.drawer-section input,
+.drawer-section select,
+.drawer-section textarea { max-width: 100%; }
+
+/* Footer is a small anchored folio tab instead of a giant rectangular bar. */
+.drawer-footer,
+.development-drawer .dialog-footer {
+  position: sticky !important;
+  z-index: 85 !important;
+  bottom: 0 !important;
+  min-height: 4.15rem;
+  margin: 0 !important;
+  padding: .74rem 1.05rem .82rem 1.25rem !important;
+  border: 0 !important;
+  background:
+    linear-gradient(180deg, rgba(245,234,212,.88), rgba(238,224,198,.98)),
+    url('/assets/foundry-parchment.webp') center / cover !important;
+  box-shadow: 0 -.45rem .85rem rgba(52,38,23,.09) !important;
+  clip-path: polygon(0 8%, 13% 4%, 28% 7%, 45% 3%, 64% 7%, 82% 3%, 100% 7%, 100% 100%, 0 100%);
+}
+.drawer-footer .button.primary,
+.development-drawer .button.primary {
+  min-width: 6.6rem;
+  padding-inline: .85rem !important;
+}
+
+/* Give the final section room above the sticky footer. */
+.sheet-drawer > .drawer-section:last-of-type,
+.development-drawer > .drawer-section:last-of-type {
+  margin-bottom: 1.25rem !important;
+}
+
+@media (max-width: 700px) {
+  .utility-menu {
+    position: fixed !important;
+    top: 3.6rem !important;
+    right: .45rem !important;
+    width: calc(100vw - .9rem) !important;
+    max-height: calc(100dvh - 4.1rem) !important;
+  }
+  .sheet-drawer,
+  .development-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding-left: .58rem !important;
+  }
+  .sheet-drawer::after,
+  .development-drawer::after { width: 100vw !important; }
+  .drawer-header,
+  .development-drawer > header { padding-left: 1rem !important; }
+  .drawer-section { margin-inline: .32rem .48rem !important; padding-inline: .5rem !important; }
+}
+/* Keep the folio binding tied to the drawer edge while the page scrolls. */
+.sheet-drawer::before,
+.development-drawer::before {
+  position: absolute !important;
+  inset: 0 auto 0 0 !important;
+}
+.sheet-drawer::after,
+.development-drawer::after {
+  position: absolute !important;
+  inset: 0 !important;
+  width: auto !important;
+}
+/* Drawer editing controls are margin annotations, not mini web cards. */
+.sheet-drawer .dynamic-tag-editor,
+.sheet-drawer .ability-config-list article,
+.sheet-drawer .special-picker,
+.sheet-drawer .relationship-edit-row,
+.development-drawer .dynamic-tag-editor,
+.development-drawer .ability-config-list article,
+.development-drawer .special-picker {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.sheet-drawer .dynamic-tag-editor,
+.development-drawer .dynamic-tag-editor {
+  padding: .3rem 0 .15rem !important;
+}
+.sheet-drawer .inline-editor-heading,
+.development-drawer .inline-editor-heading {
+  padding-bottom: .28rem;
+  border-bottom: 1px solid rgba(103,77,49,.15);
+}
+.sheet-drawer .inline-editor-heading button,
+.sheet-drawer .custom-special-add button,
+.development-drawer .inline-editor-heading button,
+.development-drawer .custom-special-add button {
+  min-height: 1.55rem !important;
+  padding: .12rem .24rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(113,76,43,.34) !important;
+  color: #6b482f !important;
+  background: linear-gradient(transparent 56%, rgba(226,194,122,.30) 56% 92%, transparent 92%) !important;
+  box-shadow: none !important;
+}
+.sheet-drawer .tag-edit-row,
+.development-drawer .tag-edit-row {
+  grid-template-columns: minmax(0,1fr) auto auto !important;
+  gap: .18rem !important;
+  padding: .08rem 0 !important;
+}
+.sheet-drawer .tag-edit-order,
+.development-drawer .tag-edit-order { gap: .02rem !important; }
+.sheet-drawer .tag-edit-order button,
+.development-drawer .tag-edit-order button {
+  width: 1.65rem !important;
+  min-width: 1.65rem !important;
+  height: 1.65rem !important;
+  min-height: 1.65rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(103,77,49,.22) !important;
+  color: #6d5b49 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.sheet-drawer .tag-edit-order button:not(:disabled):hover,
+.development-drawer .tag-edit-order button:not(:disabled):hover {
+  background: linear-gradient(transparent 58%, rgba(225,190,111,.24) 58% 94%, transparent 94%) !important;
+}
+.sheet-drawer .mini-remove,
+.development-drawer .mini-remove {
+  width: 1.65rem !important;
+  min-width: 1.65rem !important;
+  height: 1.65rem !important;
+  min-height: 1.65rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: rgba(126,77,59,.72) !important;
+  background: transparent !important;
+}
+.sheet-drawer .mini-remove:hover,
+.sheet-drawer .mini-remove:focus-visible,
+.development-drawer .mini-remove:hover,
+.development-drawer .mini-remove:focus-visible {
+  color: #7c4435 !important;
+  background: linear-gradient(transparent 58%, rgba(221,150,124,.26) 58% 94%, transparent 94%) !important;
+}
+.sheet-drawer .ability-config-list article,
+.development-drawer .ability-config-list article {
+  margin: .28rem 0 .45rem !important;
+  padding: .42rem .25rem .5rem !important;
+  border-top: 1px solid rgba(103,77,49,.13) !important;
+}
+.sheet-drawer .ability-config-heading strong,
+.development-drawer .ability-config-heading strong {
+  color: #5f402d !important;
+  font-family: var(--font-litm-display,"Texturina",Georgia,serif) !important;
+  font-weight: 570 !important;
+}
+
+/* Selects keep their affordance but lose the native boxed-field feel. */
+.sheet-drawer select,
+.development-drawer select {
+  border-bottom-color: rgba(99,74,47,.29) !important;
+  cursor: pointer;
+}
+
+/* The scroll edge is part of the folio binding, not a browser gutter. */
+.sheet-drawer::-webkit-scrollbar,
+.development-drawer::-webkit-scrollbar,
+.utility-menu::-webkit-scrollbar { width: 7px; }
+.sheet-drawer::-webkit-scrollbar-track,
+.development-drawer::-webkit-scrollbar-track,
+.utility-menu::-webkit-scrollbar-track { background: transparent; }
+.sheet-drawer::-webkit-scrollbar-thumb,
+.development-drawer::-webkit-scrollbar-thumb,
+.utility-menu::-webkit-scrollbar-thumb {
+  background: rgba(100,74,47,.28);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+/* Modal development/fulfillment surfaces must also sit above the raised app binding. */
+.modal-backdrop {
+  z-index: 1250 !important;
+}
+
+/* =====================================================================
+   Final folio + scene alignment corrections
+   ===================================================================== */
+
+/* The old scene-board accent lived on the outer wrapper and extended past
+   the deckled heading paper. The heading itself is the visual edge now. */
+.scene-board-v2::before {
+  content: none !important;
+  display: none !important;
+}
+.tabletop-section,
+.scene-board-v2 {
+  border-top: 0 !important;
+}
+.scene-board-heading {
+  margin: 0 0 .45rem 0 !important;
+  padding: .72rem 1rem .62rem 1rem !important;
+}
+.scene-board-heading::before {
+  content: none !important;
+  display: none !important;
+}
+.scene-board-heading .section-kicker,
+.scene-board-heading h2,
+.scene-board-heading > p {
+  margin-left: 0 !important;
+}
+
+/* The drawer is one continuous folio surface. Binding, vignette and paper
+   are background layers on the viewport-height scroll container instead of
+   pseudo-elements with a finite scroll-box height. */
+.sheet-drawer,
+.development-drawer {
+  position: relative !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 0 0 5.25rem .82rem !important;
+  background-image:
+    radial-gradient(circle at 72% .72rem, rgba(220,177,101,.52) 0 1px, transparent 1.45px),
+    linear-gradient(90deg, #201c18 0, #4b382d 46%, #76533c 74%, rgba(105,75,52,.38) 100%),
+    radial-gradient(ellipse at 72% 5%, rgba(255,255,255,.22), transparent 25rem),
+    linear-gradient(90deg, rgba(76,50,33,.09), transparent 2.6rem),
+    url('/assets/foundry-parchment.webp') !important;
+  background-size:
+    .82rem 1.45rem,
+    .82rem 100%,
+    100% 100%,
+    100% 100%,
+    640px 640px !important;
+  background-position: left top, left top, center top, center top, center top !important;
+  background-repeat: repeat-y, no-repeat, no-repeat, no-repeat, repeat !important;
+  background-attachment: local, local, local, local, local !important;
+}
+.sheet-drawer::before,
+.sheet-drawer::after,
+.development-drawer::before,
+.development-drawer::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Keep the footer physically anchored to the bottom of the folio. It no
+   longer participates in the scroll flow, so there is no empty parchment
+   tail below it. The drawer's bottom padding reserves exactly this space. */
+.drawer-footer,
+.development-drawer .dialog-footer {
+  position: fixed !important;
+  z-index: 1288 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: auto !important;
+  width: min(660px, 96vw) !important;
+  min-height: 4.35rem !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+  padding: .8rem 1.05rem .86rem 2.05rem !important;
+  background:
+    linear-gradient(180deg, rgba(245,234,212,.91), rgba(238,224,198,.985)),
+    url('/assets/foundry-parchment.webp') center / 640px 640px repeat !important;
+  filter: drop-shadow(0 -.35rem .45rem rgba(47,34,22,.10));
+  box-shadow: none !important;
+}
+
+/* The folio header already looks like a physical title strip. Keep the close
+   control as a quiet ink mark rather than an unrelated circular web button. */
+.drawer-close {
+  width: 1.75rem !important;
+  min-width: 1.75rem !important;
+  height: 1.75rem !important;
+  min-height: 1.75rem !important;
+  margin: .08rem .08rem 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: rgba(255,242,220,.72) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-family: var(--font-litm-small, "IM Fell English", Georgia, serif) !important;
+  font-size: 1.48rem !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  text-shadow: 0 1px 1px rgba(31,21,16,.35);
+  transform: none !important;
+}
+.drawer-close:hover,
+.drawer-close:focus-visible {
+  color: #fff7e7 !important;
+  background: linear-gradient(transparent 69%, rgba(218,172,97,.34) 69% 92%, transparent 92%) !important;
+  outline: none !important;
+  transform: none !important;
+}
+
+/* The final section only needs breathing room before the fixed footer, not a
+   second large blank area. */
+.sheet-drawer > .drawer-section:last-of-type,
+.development-drawer > .drawer-section:last-of-type {
+  margin-bottom: .45rem !important;
+}
+
+@media (max-width: 700px) {
+  .sheet-drawer,
+  .development-drawer {
+    padding-left: .62rem !important;
+    padding-bottom: 5.1rem !important;
+    background-size: .62rem 1.45rem, .62rem 100%, 100% 100%, 100% 100%, 640px 640px !important;
+  }
+  .drawer-footer,
+  .development-drawer .dialog-footer {
+    width: 100vw !important;
+    padding-left: 1.35rem !important;
+  }
+}
+
+/* The desktop utility/character popovers originate inside the Hero rail and
+   intentionally cross into the sheet column. Keep the rail's stacking context
+   above paper props so menus never disappear under Backpack/theme cards. */
+@media (min-width: 1051px) {
+  .hero-portrait-rail { z-index: 90 !important; }
+  .sheet-content { z-index: 1; }
+}

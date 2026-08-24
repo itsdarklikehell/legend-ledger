@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1500" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a9bbb2"/><stop offset=".48" stop-color="#738e82"/><stop offset="1" stop-color="#263d35"/></linearGradient>
+  <radialGradient id="moon"><stop stop-color="#e8dfac" stop-opacity=".9"/><stop offset="1" stop-color="#d8ca8b" stop-opacity="0"/></radialGradient>
+  <filter id="water" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".012 .022" numOctaves="4" seed="31" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="18"/><feGaussianBlur stdDeviation="1.1"/></filter>
+  <filter id="mist"><feTurbulence type="fractalNoise" baseFrequency=".006 .018" numOctaves="3" seed="19" result="n"/><feColorMatrix in="n" values="1 0 0 0 .75 0 1 0 0 .82 0 0 1 0 .77 0 0 0 .16 0"/></filter>
+  <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset=".42" stop-color="#10241d" stop-opacity="0"/><stop offset="1" stop-color="#0f1d18" stop-opacity=".92"/></linearGradient>
+</defs>
+<rect width="900" height="1500" fill="url(#sky)"/>
+<circle cx="625" cy="240" r="205" fill="url(#moon)" opacity=".72"/>
+<g filter="url(#water)" opacity=".55"><path d="M-80 820 L110 610 250 760 398 520 548 745 710 570 980 850 V1070 H-80Z" fill="#607b70"/><path d="M-90 960 L90 750 224 902 355 655 506 932 690 720 990 1000 V1180 H-90Z" fill="#314d43"/></g>
+<g opacity=".98" fill="#17352a"><path d="M55 1500 L135 850 205 1500Z"/><path d="M190 1500 L302 715 398 1500Z"/><path d="M465 1500 L570 805 660 1500Z"/><path d="M655 1500 L775 660 870 1500Z"/></g>
+<g opacity=".72" fill="#213f34"><path d="M-40 1500 L32 1010 94 1500Z"/><path d="M345 1500 L420 945 482 1500Z"/><path d="M820 1500 L900 990 970 1500Z"/></g>
+<rect width="900" height="1500" filter="url(#mist)" opacity=".34"/>
+<path d="M0 680 C190 620 300 705 475 650 C640 598 760 662 900 620 V810 C735 770 610 828 455 790 C275 745 160 812 0 770Z" fill="#d2ded5" opacity=".13" filter="url(#water)"/>
+<rect width="900" height="1500" fill="url(#fade)"/>
+<rect width="900" height="1500" fill="none" stroke="#ded4bd" stroke-opacity=".09" stroke-width="14"/>
+</svg>

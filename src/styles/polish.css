@@ -1,0 +1,160 @@
+/* ===== Final interaction polish =====
+ * Small layout corrections for controls whose open/active states should feel
+ * like the same physical object rather than a different component.
+ */
+
+/* Action folio -----------------------------------------------------------
+   Keep the expanded header visually continuous with the idle Action strip.
+   The mode guidance becomes secondary inline copy instead of creating a tall
+   second header row, and the body gets a little more paper breathing room. */
+.roll-folio.is-open .roll-folio-head {
+  min-height: 3.35rem !important;
+  grid-template-columns: minmax(0, 1fr) auto auto !important;
+  gap: .72rem !important;
+  padding: .52rem .9rem .54rem 1rem !important;
+}
+
+.roll-folio.is-open .roll-folio-title {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: .62rem;
+  overflow: hidden;
+}
+
+.roll-folio.is-open .roll-folio-title > span {
+  flex: 0 0 auto;
+}
+
+.roll-folio.is-open .roll-folio-title > small {
+  min-width: 0;
+  margin: 0 !important;
+  color: rgba(241, 226, 203, .78) !important;
+  font-size: .64rem !important;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roll-folio.is-open .roll-folio-main {
+  padding: .86rem 1rem .72rem !important;
+}
+
+.roll-folio.is-open .roll-folio-ledger {
+  margin-top: .06rem !important;
+  padding-top: .48rem !important;
+  padding-bottom: .58rem !important;
+}
+
+.roll-folio.is-open .rule-advisory-row {
+  margin-top: .05rem !important;
+  margin-bottom: .58rem !important;
+}
+
+.roll-folio.is-open .roll-more-panel {
+  margin-top: .08rem !important;
+  margin-bottom: .72rem !important;
+  padding-top: .7rem !important;
+  padding-bottom: .16rem !important;
+}
+
+.roll-folio.is-open .roll-result-sheet {
+  margin-top: .2rem !important;
+  margin-bottom: .68rem !important;
+}
+
+.roll-folio.is-open .roll-effect-spender {
+  margin-bottom: .72rem !important;
+}
+
+/* Fellowship -------------------------------------------------------------
+   The inline scratch mark belongs to the printed tag row. Keep enough inset
+   from the deckled paper edge so it never appears to float outside the card. */
+.fellowship-theme-core {
+  padding-right: .92rem !important;
+}
+
+.fellowship-tag-row {
+  min-width: 0;
+  padding-right: .16rem;
+}
+
+.fellowship-tag-control.sheet-tag-control {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.fellowship-tag-control.sheet-tag-control .paper-tag {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-right: 2.15rem !important;
+}
+
+.fellowship-tag-control.sheet-tag-control .tag-inline-tools {
+  right: .42rem !important;
+}
+
+.fellowship-tag-control.sheet-tag-control .tag-inline-tools > .tag-scratch-button {
+  width: 1.22rem !important;
+  min-width: 1.22rem !important;
+  height: 1.22rem !important;
+  min-height: 1.22rem !important;
+}
+
+.fellowship-tag-control.sheet-tag-control .tag-inline-tools .scratch-icon {
+  width: 1.02rem !important;
+  height: 1.02rem !important;
+}
+
+/* Empty Fellowship content should still read as deliberately spaced paper,
+   not as a stretched control. */
+.fellowship-theme-core .quest-block {
+  margin-top: .08rem;
+}
+
+/* Responsive corrections ------------------------------------------------ */
+@media (max-width: 1000px) {
+  .roll-folio.is-open .roll-folio-head {
+    grid-template-columns: minmax(7rem, 1fr) auto auto !important;
+  }
+
+  .roll-folio.is-open .roll-folio-title > small {
+    display: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .roll-folio.is-open .roll-folio-head {
+    min-height: 3rem !important;
+    grid-template-columns: 1fr auto !important;
+    padding: .45rem .68rem !important;
+  }
+
+  .roll-folio.is-open .roll-folio-title {
+    display: none !important;
+  }
+
+  .roll-folio.is-open .roll-folio-main {
+    padding: .72rem .72rem .62rem !important;
+  }
+
+  .roll-folio.is-open .roll-folio-ledger {
+    margin-inline: .72rem !important;
+  }
+
+  .roll-folio.is-open .roll-more-panel,
+  .roll-folio.is-open .rule-advisory-row,
+  .roll-folio.is-open .roll-result-sheet {
+    margin-inline: .72rem !important;
+  }
+
+  .fellowship-theme-core {
+    padding-right: .76rem !important;
+  }
+
+  .fellowship-tag-control.sheet-tag-control .tag-inline-tools {
+    right: .28rem !important;
+  }
+}
