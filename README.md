@@ -1,5 +1,11 @@
 # Legend Ledger
 
+
+[![CI](https://github.com/itsdarklikehell/legend-ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/itsdarklikehell/legend-ledger/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/itsdarklikehell/legend-ledger)](LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
+
 **Legend Ledger** is an unofficial, local-first digital character sheet and play companion for **Legend in the Mist**.
 
 Build and manage Heroes, invoke tags directly from the sheet, roll actions and reactions, track statuses and story tags, develop themes, manage Fellowship, Camp & Sojourn, Promise, Moments of Fulfillment, and Quintessences — all without accounts or a server.
